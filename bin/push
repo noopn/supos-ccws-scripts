@@ -1,0 +1,60 @@
+#!/usr/bin/env node
+
+const webpack = require('webpack');
+const TerserPlugin = require("terser-webpack-plugin");
+
+const compiler = webpack({
+        entry:'/home/supreme/Workspace/supos-ccws/src/桌面/htDiv-kg8xi24y0-3287/source/index.js',
+        output:{
+            filename:'index.js',
+            path:'/home/supreme/Workspace/supos-ccws/src/桌面/htDiv-kg8xi24y0-3287/compiled',
+            publicPath:'/',
+            libraryTarget :'commonjs'
+        },
+        mode:'production',
+        module:{
+            strictExportPresence:true,
+            rules:[{ 
+                parser: { requireEnsure: false }
+            },{
+                test:/\.(css|scss)$/,
+                use:[
+                    require.resolve('style-loader'),
+                    require.resolve('css-loader'),
+                    require.resolve('postcss-loader'),
+                    require.resolve('sass-loader'),
+                ]
+            },{
+                test: /\.(js|mjs|jsx|ts|tsx)$/,
+                loader: require.resolve('babel-loader'),
+                options:{
+                    "presets": [
+                        require.resolve('@babel/preset-react'),
+                        require.resolve('@babel/preset-typescript'),
+                    ]
+                },
+                exclude: /node_modules/,
+            }]
+        },
+        resolve: {
+            extensions: ['.tsx', '.ts', '.js'],
+        },
+        optimization: {
+            minimize: true,
+            minimizer: [
+            new TerserPlugin({
+                parallel: true,
+                terserOptions: {
+                    compress: true,
+                },
+            }),
+            ],
+        },
+        externals: {
+            react:'commonjs2 react',
+            antd:'commonjs2 antd',
+            lodash:'commonjs2 lodash',
+        }
+});
+
+compiler.run();

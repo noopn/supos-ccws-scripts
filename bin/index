@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+const program = require('commander');
+
+program
+  .version(require('../package').version)
+  .usage('<command> [options]')
+  .command('pull', 'pull all custom components from project')
+  .command('push', 'push all custom components if changed')
+  .command('dev', 'start dev server');
+
+
+program.parse(process.argv);

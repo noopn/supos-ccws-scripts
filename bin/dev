@@ -1,0 +1,56 @@
+#!/usr/bin/env node
+
+const {fork} = require('child_process');
+const glob = require('glob');
+const fse = require('fs-extra');
+const path = require('path');
+const chalk = require('chalk');
+const server = require('../src/server');
+
+
+const childPid = {
+    pid:null,
+    isAlive:true
+}
+
+try{
+    server();
+}catch(err){
+
+}
+
+// const appPath = glob.sync(path.join(process.cwd(),'./src/*'));
+
+// appPath.forEach(app_path=>{
+//     fse.watch(app_path,(e,filename)=>{
+//         const filePath = path.join(app_path,filename);
+//         if(fse.existsSync(filePath) && !fse.statSync(filePath).isDirectory()) {
+//             fse.removeSync(filePath);
+//             console.log(
+//                 chalk.black.bgHex('#FFCD3A')('create component error'),
+//                 chalk.hex('#FFCD3A')("Component must be a folder, but you create a file.")
+//             );
+//         }
+//         if(childPid.isAlive){
+//             process.kill(childPid.pid);
+//             childPid.isAlive = false;
+//             startServer()
+//         }
+//     })
+// })
+
+// fse.watch(path.join(process.cwd(),'./src'),(e,filename)=>{
+//     const filePath = path.join(process.cwd(),'./src',filename)
+//     if(filename==='index.js') return;
+//     if(fse.existsSync(filePath)) {
+//         fse.removeSync(filePath);
+//         console.log(
+//             chalk.black.bgHex('#FFCD3A')('create app error'),
+//             chalk.hex('#FFCD3A')("You can only create App on website!")
+//         );
+//     }
+// })
+
+process.on('uncaughtException', (err) => {
+    process.exit(1);
+})

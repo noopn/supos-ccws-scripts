@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/socket.io-3.0.5.min.js"></script>
+    <link rel="icon" href="/favicon.ico" />
+    <title>supOS可编程组件</title>
+</head>
+
+<body>
+    <h1>{{project}}</h1>
+    <ul>
+        {{each appList as app}}
+        <li>{{app.appName}}</li>
+        <ul>
+            {{each app.componentsList as component}}
+            <li onclick="handleClick('{{component.id}}')">{{component.componentName}}</li>
+            {{/each}}
+        </ul>
+        {{/each}}
+    </ul>
+    <script>
+        var handleClick = (id) => {
+            fetch(`/${id}`).then(res => res.json());
+        }
+    </script>
+    <script>
+        const socket = io();
+        socket.on("connect", () => {
+            console.log("Connect ccws socket server success!")
+        });
+        socket.on('workFolderChange',()=>{
+            console.log('update ccws work folder')
+            window.location.reload();
+        })
+    </script>
+</body>
+
+</html>

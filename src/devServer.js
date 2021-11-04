@@ -3,17 +3,12 @@ const webpack = require('webpack');
 const fse = require('fs-extra');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackDevServer = require('webpack-dev-server');
-const { merge } = require('webpack-merge');
+const {merge} = require('webpack-merge');
 const baseConfig = require('../config/webpack.config');
 const entryFile = require('../src/entryFile');
 
-
-
 const {
     SERVER_ENTRY_PATH,
-    DEV_SERVER_HOST,
-    DEV_SERVER_PORT
-
 } = require('../config');
 
 const devServer = async (appInfo) => {
@@ -24,6 +19,8 @@ const devServer = async (appInfo) => {
 
     const entryTpl = entryFile(appInfo);
 
+    await fse.remove(SERVER_ENTRY_PATH);
+    await fse.ensureFile(SERVER_ENTRY_PATH);
     await fse.writeFile(SERVER_ENTRY_PATH, entryTpl);
 
     const webpackConfig = merge(baseConfig, {
@@ -41,7 +38,6 @@ const devServer = async (appInfo) => {
     })
 
     const compiler = webpack(webpackConfig);
-
     const server = new WebpackDevServer({
         compress: true,
         hot: true,

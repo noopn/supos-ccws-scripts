@@ -1,4 +1,6 @@
-/node_modules
-/test
+# dependencies
+node_modules
+.cache
 
-.chche
+# test
+test

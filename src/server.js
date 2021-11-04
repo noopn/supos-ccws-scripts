@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const path = require('path');
-const os = require('os');
 const http = require('http');
 const readline = require('readline');
 
@@ -15,12 +14,8 @@ const Router = require('koa-router');
 const koaStatic = require('koa-static');
 const render = require('koa-art-template');
 
-const webpackConfig=  require('../public/webpack.config')
-const serverConfig=  require('../public/server.config');
-const entryTpl = require('../public/entryTpl');
-
 const router = new Router();
-const app=new Koa();
+const app = new Koa();
 const server = http.Server(app.callback());
 const { Server } = require("socket.io");
 const io = new Server(server);
@@ -39,80 +34,101 @@ const {
     DEV_SERVER_HOST,
     PUBLIC_PATH
 } = require('../config');
+
 const devServer = require('./devServer');
 
-const uid =()=> Math.random().toString(36).substring(2,10);
+const hasLockFile = fse.pathExistsSync(LOCK_CACHE_PATH);
+const hasInfoFile = fse.pathExistsSync(INFO_CACHE_PATH);
 
-const basePath = path.join(process.cwd(),'./src');
+if (!hasLockFile && !hasInfoFile) {
+    console.log(
+        chalk.black.bgHex('#FFCD3A')('dev warn'),
+        chalk.hex('#FFCD3A')('You haven\'t pull the project, now run example project for you!'),
+    )
+}
 
-const appPaths =  glob.sync(path.join(basePath,'*'));
+const uid = () => Math.random().toString(36).substring(2, 10);
+
+const basePath = path.join(process.cwd(), './src');
+
+const appPaths = glob.sync(path.join(basePath, '*'));
 
 let componentsMap = new Map();
 
-const projectInfo = async ()=>{
-    const data = {};
+const projectInfo = async () => {
+    const data = {
+        project:"示例项目",
+        isExample:true
+    };
+    if(!hasInfoFile)  return data;
     const infoFileStream = fse.createReadStream(INFO_CACHE_PATH);
     for await (const line of rl(infoFileStream)) {
-        const [key,value] = line.split(/\s/);
-        data[key]= value;
-        
+        const [key, value] = line.split(/\s/);
+        data[key] = value;
+
     }
     return data;
 }
 
-const analysisData = async () =>{
-    const lockFileStream = fse.createReadStream(LOCK_CACHE_PATH);
-    // Note: we use the crlfDelay option to recognize all instances of CR LF
-    // ('\r\n') in input.txt as a single line break.
+const analysisData = async () => {
+
+    if (!appPaths.length) return false;
     let lock = {};
     let temp = {};
     let componentFolderMap = {};
-    for await (const line of rl(lockFileStream)) {
-      // Each line in input.txt will be successively available here as `line`.
-        const match = line.match(/<@(.+)>(.+)/);
-        if(!match) {temp = {};continue;}
-        if(match[1]==='id'){
-            lock[match[2]] = temp;
-        }else if(match[1]==='localComponentPath'){
-            componentFolderMap[match[2]] = true;
+
+    if (hasLockFile) {
+        const lockFileStream = fse.createReadStream(LOCK_CACHE_PATH);
+        // Note: we use the crlfDelay option to recognize all instances of CR LF
+        // ('\r\n') in input.txt as a single line break.
+
+        for await (const line of rl(lockFileStream)) {
+            // Each line in input.txt will be successively available here as `line`.
+            const match = line.match(/<@(.+)>(.+)/);
+            if (!match) { temp = {}; continue; }
+            if (match[1] === 'id') {
+                lock[match[2]] = temp;
+            } else if (match[1] === 'localComponentPath') {
+                componentFolderMap[match[2]] = true;
+            }
+            temp[match[1]] = match[2];
         }
-        temp[match[1]] = match[2];
+
+
+        const availableAppPaths = appPaths.filter(appPath => {
+            if (!componentFolderMap[appPath]) {
+                spinner.warn(appPath);
+            }
+            return true;
+        });
+
+        if (availableAppPaths.length !== Object.keys(componentFolderMap).length) {
+            console.log(
+                chalk.hex('#FFCD3A')(`You can't create App folder in src, please confirm these paths are right!`)
+            )
+            process.exit();
+        }
+
+        componentsMap = new Map();
     }
 
-    if(!appPaths.length) return false;
 
-    const availableAppPaths = appPaths.filter(appPath=>{
-        if(!componentFolderMap[appPath]){
-            spinner.warn(appPath);
-        }
-        return true;
-    });
-    
-    if(availableAppPaths.length !== Object.keys(componentFolderMap).length){
-        console.log(
-            chalk.hex('#FFCD3A')(`You can't create App folder in src, please confirm these paths are right!`)
-        )
-        process.exit();
-    }
-    
-    componentsMap = new Map();
-
-    return  appPaths.map((appPath)=>{
-        const componentPaths = glob.sync(path.join(appPath,'*'));
+    return appPaths.map((appPath) => {
+        const componentPaths = glob.sync(path.join(appPath, '*'));
         const appName = String(appPath.split('/').slice(-1));
 
-        const componentsList = componentPaths.map(componentPath=>{
+        const componentsList = componentPaths.map(componentPath => {
             const componentName = String(componentPath.split('/').slice(-1));
-            const componentEntryPath = path.join(componentPath,'./source');
-            const componentOutputPath = path.join(componentPath,'./compiled');
+            const componentEntryPath = path.join(componentPath, './source');
+            const componentOutputPath = path.join(componentPath, './compiled');
             const compObj = {
-                id:uid(),
+                id: uid(),
                 componentName,
                 componentPath,
                 componentEntryPath,
                 componentOutputPath
             }
-            componentsMap.set(compObj.id,compObj);
+            componentsMap.set(compObj.id, compObj);
 
             return compObj;
         })
@@ -123,34 +139,34 @@ const analysisData = async () =>{
     });
 }
 
-const ccwsServer = async ()=>{
+const ccwsServer = () => {
 
-    router.get('/',async (ctx)=>{
+    router.get('/', async (ctx) => {
         const appList = await analysisData();
         const info = await projectInfo()
-        await ctx.render('index',{...info,appList});
+        await ctx.render('index', { ...info, appList });
     })
 
-    router.get('/:id',async (ctx)=>{
-        const {id} = ctx.params;
+    router.get('/:id', async (ctx) => {
+        const { id } = ctx.params;
         const info = await projectInfo()
         const appInfo = componentsMap.get(id);
-        if(appInfo){
+        if (appInfo) {
             ctx.body = {
-                stats:200,
-                result:''
+                stats: 200,
+                result: ''
             }
-            await devServer({...appInfo,...info});
+            await devServer({ ...appInfo, ...info });
         }
     })
 
     render(app, {
-        root:PUBLIC_PATH,
+        root: PUBLIC_PATH,
         extname: '.art',
         debug: false
     });
 
-    app.use(koaStatic(PUBLIC_PATH,{index:null}));
+    app.use(koaStatic(PUBLIC_PATH, { index: null }));
     app.use(router.routes());
     app.use(router.allowedMethods());
 
@@ -166,9 +182,9 @@ const ccwsServer = async ()=>{
 
 }
 
-appPaths.forEach(appPath=>{
-    fse.watch(appPath,(err =>{
-        io.of("/").emit("workFolderChange",{path:appPath});
+appPaths.forEach(appPath => {
+    fse.watch(appPath, (err => {
+        io.of("/").emit("workFolderChange", { path: appPath });
     }))
 })
 

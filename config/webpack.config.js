@@ -1,6 +1,5 @@
 
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     output:{
@@ -8,10 +7,8 @@ module.exports = {
         publicPath:'/'
     },
     module:{
-        strictExportPresence:true,
-        rules:[{ 
-            parser: { requireEnsure: false }
-        },{
+        rules:[
+            {
             test:/\.(css|scss)$/,
             use:[
                 require.resolve('style-loader'),
@@ -25,20 +22,23 @@ module.exports = {
                 require.resolve('postcss-loader'),
                 require.resolve('sass-loader'),
             ]
-        },{
+        },
+        {
             test: /\.(js|mjs|jsx|ts|tsx)$/,
             loader: require.resolve('babel-loader'),
             options:{
                 "presets": [
                     require.resolve('@babel/preset-react'),
-                    require.resolve('@babel/preset-typescript'),
+                    require.resolve('@babel/preset-typescript')
                 ]
             },
             exclude: /node_modules/,
         }]
     },
+    
     resolve: {
-        extensions: ['.tsx', '.ts', '.js'],
+        extensions: ['.tsx','.jsx','.ts', '.js'],
+        modules: [path.resolve(__dirname,'../node_modules')],
     }
 };
 

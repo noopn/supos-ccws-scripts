@@ -149,20 +149,6 @@ const analysisWorkFolder = async () => {
     const basePath = path.join(process.cwd(), './src');
     const appPaths = glob.sync(path.join(basePath, '*'));
 
-    let lock = {};
-    let temp = {};
-
-    const lockFileStream = fse.createReadStream(LOCK_CACHE_PATH);
-
-    for await (const line of rl(lockFileStream)) {
-        const match = line.match(/<@(.+)>(.+)/);
-        if (!match) { temp = {}; continue; }
-        if (match[1] === 'id') {
-            lock[match[2]] = temp;
-        }
-        temp[match[1]] = match[2];
-    }
-
     const componentsMap = new Map();
 
     const appList =  appPaths.map((appPath) => {

@@ -5,11 +5,6 @@ const {
     compareDependencies
 } = require('../src/util');
 
-// const childPid = {
-//     pid:null,
-//     isAlive:true
-// }
-
 const diffDeps = compareDependencies();
 
 if(diffDeps.length){

@@ -1,8 +1,12 @@
 {
   "name": "supos-ccws-scripts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
-  "private": true,
+  "main":"bin/index",
+  "author": "noopn",
+  "keywords": [
+    "ccws-cli-scripts"
+  ],
   "bin": {
     "supos-ccws-scripts": "bin/index",
     "supos-ccws-scripts-pull": "bin/pull",
@@ -52,5 +56,11 @@
     "webpack": "^5.61.0",
     "webpack-dev-server": "^4.4.0",
     "webpack-merge": "^5.8.0"
-  }
+  },
+  "files": [
+    ".bin",
+    "config",
+    "public",
+    "src"
+  ]
 }

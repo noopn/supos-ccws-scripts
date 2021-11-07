@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const fse = require('fs-extra');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackDevServer = require('webpack-dev-server');
-const {merge} = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const baseConfig = require('../config/webpack.config');
 const entryFile = require('../src/entryFile');
 
@@ -16,7 +16,8 @@ const devServer = async (appInfo) => {
         componentName,
         componentOutputPath
     } = appInfo;
-
+    
+    console.log(appInfo);
     const entryTpl = entryFile(appInfo);
 
     await fse.remove(SERVER_ENTRY_PATH);
@@ -29,24 +30,32 @@ const devServer = async (appInfo) => {
             path: componentOutputPath,
         },
         mode: 'development',
-
+        module: {
+            rules: [{
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: 'asset/resource',
+            }]
+        },
         plugins: [new HtmlWebpackPlugin({
             template: path.join(__dirname, '../public/template.html'),
             filename: 'index.html',
             title: componentName,
+        }),
+        new webpack.ProvidePlugin({
+            _: 'lodash',
+            scriptUtil:path.resolve(__dirname,'./scriptUtil.js')
         })],
     })
-
     const compiler = webpack(webpackConfig);
     const server = new WebpackDevServer({
         compress: true,
         hot: true,
         open: true,
         proxy: {
-            '/' : {
+            '/': {
                 target: appInfo.origin,
                 changeOrigin: true,
-              }
+            }
         }
     }, compiler)
 

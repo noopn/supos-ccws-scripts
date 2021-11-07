@@ -41,12 +41,8 @@ const webpackConfig = (options)=>{
             }]
         },
         resolve: {
-            extensions: ['.tsx', '.ts', '.js'],
+            extensions: ['.tsx','.jsx','.ts', '.js'],
         },
-        // externals: {
-        //     react:'react',
-        //     antd:'antd'
-        // },
         plugins: [new HtmlWebpackPlugin({
             template:path.join(__dirname,'../public/index.html'),
             filename:'index.html'

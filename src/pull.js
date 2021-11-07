@@ -1,38 +1,38 @@
 
 const path = require('path');
-
 const chalk = require('chalk');
 const context = require('./context');
 const {
     login,
     logout
 } = require('./service');
-// const logout = require('./logout')
+
 const analysisPath = require('./analysisPath');
 
 
-const pull = async (spinner) => {
+const pull = async () => {
     try {
-        // spinner.start(chalk.hex('#29ABE2')('Establish connection.'));
 
-        // const loginMsg = await login();
-        // console.log(loginMsg);
+        const loginMsg = await login();
 
-        // if(!loginMsg) {
-        //     throw new Error('Process Exit');
-        // }
-        // spinner.succeed(chalk.hex('#29ABE2')('Establish connection succeed!'));
+        if(loginMsg.adminLimit) {
+            console.log(
+                chalk.black.bgHex('#cb3837')('connect error'),
+                chalk.hex('#cb3837')(`Maximum Number of Users ${loginMsg.adminLimit}, please check your service`)
+            );
+            process.exit(0)
+        }
 
-        // context.set('loginMsg',loginMsg);
+        context.set('loginMsg',loginMsg);
 
         await analysisPath();
 
-        // await logout(spinner);
+        await logout();
 
     }catch (err) {
         console.log(err);
         spinner.stop();
-        // await logout();
+        await logout();
     }
 
 }

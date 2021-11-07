@@ -8,13 +8,12 @@ const fse = require('fs-extra');
 const validator = require('validator');
 const chalk = require('chalk');
 const inquirer = require('inquirer');
-const ora = require('ora');
 
 const config = require('../config');
 const context = require('../src/context')
 
 const pull = require('../src/pull');
-const spinner = ora(); 
+
 const pipeline = promisify(stream.pipeline);
 const cwd = process.cwd();
 
@@ -24,113 +23,112 @@ const {
     INFO_CACHE_PATH
 } = config;
 
-// try {
-//     (async () => {
-//         // check  ccws.config
+try {
+    (async () => {
+        // check  ccws.config
 
-//         const configFilePath = path.join(cwd, `./${CONFIG_FILE_NAME}`);
+        const configFilePath = path.join(cwd, `./${CONFIG_FILE_NAME}`);
 
-//         try {
-//             await promisify(fse.exists)(configFilePath)
+        try {
+            await promisify(fse.exists)(configFilePath)
 
-//             await fse.ensureFile(configFilePath);
+            await fse.ensureFile(configFilePath);
 
-//             await pipeline(
-//                 fse.createReadStream(CONFIG_TEMPLATE_PATH),
-//                 fse.createWriteStream(configFilePath)
-//             )
-//             console.log(
-//                 chalk.hex('#FFCD3A')(`Config file don't exist, has been automatically created for you.
-// Please check and configure`),
-//                 chalk.black.bgHex('#FFCD3A')('ccws.config first,'),
-//                 chalk.hex('#FFCD3A')('after that  execute this command again'),
-//             )
-//             return;
+            await pipeline(
+                fse.createReadStream(CONFIG_TEMPLATE_PATH),
+                fse.createWriteStream(configFilePath)
+            )
+            console.log(
+                chalk.hex('#FFCD3A')(`Config file don't exist, has been automatically created for you.
+Please check and configure`),
+                chalk.black.bgHex('#FFCD3A')('ccws.config first,'),
+                chalk.hex('#FFCD3A')('after that  execute this command again'),
+            )
+            return;
 
-//         } catch (_) { }
+        } catch (_) { }
 
-//         // check ccws.config format
+        // check ccws.config format
 
-//         let configs = [];
+        let configs = [];
 
-//         try {
-//             const configData = fse.readFileSync(configFilePath, { encoding: 'utf-8' });
+        try {
+            const configData = fse.readFileSync(configFilePath, { encoding: 'utf-8' });
 
-//             if (validator.isEmpty(configData, { ignore_whitespace: true })) throw new Error('File format error, file is empty');
+            if (validator.isEmpty(configData, { ignore_whitespace: true })) throw new Error('File format error, file is empty');
 
-//             configs = JSON.parse(configData);
+            configs = JSON.parse(configData);
 
-//             if (!configs.forEach) throw new Error('File format error, expected format is array');
+            if (!configs.forEach) throw new Error('File format error, expected format is array');
 
-//             configs.forEach(config => {
-//                 if (validator.trim(config.origin) !== config.origin || validator.trim(config.project) !== config.project) throw new Error('Some space in your config value, please check it!');
-//                 if (config.origin == null) throw new Error('origin expected a string but received a undefined');
-//                 if (config.project == null) throw new Error('project expected a string url but received a undefined');
-//                 if (!validator.isURL(config.origin)) throw new Error('origin is not a URL');
-//                 if (validator.isEmpty(config.project)) throw new Error('project don\'t be empty');
-//             });
-//         } catch (err) {
+            configs.forEach(config => {
+                if (validator.trim(config.origin) !== config.origin || validator.trim(config.project) !== config.project) throw new Error('Some space in your config value, please check it!');
+                if (config.origin == null) throw new Error('origin expected a string but received a undefined');
+                if (config.project == null) throw new Error('project expected a string url but received a undefined');
+                if (!validator.isURL(config.origin)) throw new Error('origin is not a URL');
+                if (validator.isEmpty(config.project)) throw new Error('project don\'t be empty');
+            });
+        } catch (err) {
 
-//             console.log(
-//                 chalk.black.bgHex('#cb3837')('.ccws.config error'),
-//                 chalk.hex('#cb3837')(err.message)
-//             );
+            console.log(
+                chalk.black.bgHex('#cb3837')('.ccws.config error'),
+                chalk.hex('#cb3837')(err.message)
+            );
 
-//             return;
-//         }
+            return;
+        }
 
-//         const choices = configs.map(config => ({ name: config.project, value: config }));
+        const choices = configs.map(config => ({ name: config.project, value: config }));
 
-//         let options = await inquirer.prompt([
-//             {
-//                 type: 'list',
-//                 name: 'project',
-//                 message: 'What project do you want to sync ?',
-//                 choices,
-//             },
-//             {
-//                 type: "input",
-//                 message: "Enter username",
-//                 name: "username",
-//                 validate: async (password) => {
-//                     if (!password) return "Password cannot be empty";
-//                     return true;
-//                 }
-//             },
-//             {
-//                 type: "password",
-//                 message: "Enter Password",
-//                 name: "password",
-//                 validate: async (password) => {
-//                     if (!password) return "Username cannot be empty";
-//                     return true;
-//                 }
-//             }
-//         ])
-//         options = {
-//             ...options.project,
-//             username: options.username,
-//             password: options.password
-//         }
+        let options = await inquirer.prompt([
+            {
+                type: 'list',
+                name: 'project',
+                message: 'What project do you want to sync ?',
+                choices,
+            },
+            {
+                type: "input",
+                message: "Enter username",
+                name: "username",
+                validate: async (password) => {
+                    if (!password) return "Username cannot be empty";
+                    return true;
+                }
+            },
+            {
+                type: "password",
+                message: "Enter Password",
+                name: "password",
+                validate: async (password) => {
+                    if (!password) return "Password cannot be empty";
+                    return true;
+                }
+            }
+        ])
+        options = {
+            ...options.project,
+            username: options.username,
+            password: options.password
+        }
 
-//         context.set('options',options);
+        context.set('options', options);
 
-//         await fse.remove(INFO_CACHE_PATH)
-//         await fse.ensureFile(INFO_CACHE_PATH);
+        await fse.remove(INFO_CACHE_PATH)
+        await fse.ensureFile(INFO_CACHE_PATH);
 
-        
-//         for(let [key,value] of Object.entries(options)){
-//             const info = `${key} ${value}\n`;
-//             await fse.writeFile(INFO_CACHE_PATH,info,{flag:'a'});
-//         }
 
-//         await pull(spinner);
-//     })()
-// } catch (err) {
-//     console.log(err);
-// }
+        for (let [key, value] of Object.entries(options)) {
+            const info = `${key} ${value}\n`;
+            await fse.writeFile(INFO_CACHE_PATH, info, { flag: 'a' });
+        }
 
-pull(spinner);
+        await pull();
+    })()
+} catch (err) {
+    console.log(err);
+}
+
 
 process.on('uncaughtException', (err) => {
     process.exit(1);

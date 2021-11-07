@@ -28,6 +28,10 @@ const APP_FLOOR_API = (_,path,id) =>  `/api/app/resource/folder?path=${path}&app
 
 const APP_FILES_API = (_,path,id) => `/api/app/resource/file?path=${path}&appId=${id}&current=1&pageSize=100`;
 
+const APP_CREATE_FOLDER_API = '/api/app/resource/folder';
+
+const APP_CREATE_FILE_API = '/api/app/manager/uploadResource';
+
 module.exports = {
     PUBLIC_PATH,
     LOCK_CACHE_PATH,
@@ -41,6 +45,8 @@ module.exports = {
     LOGOUT_API,
     APPS_LIST_API,
     APP_FLOOR_API,
-    APP_FILES_API
+    APP_FILES_API,
+    APP_CREATE_FOLDER_API,
+    APP_CREATE_FILE_API
 }
 

@@ -8,16 +8,103 @@
     <script src="/socket.io-3.0.5.min.js"></script>
     <link rel="icon" href="/favicon.ico" />
     <title>supOS可编程组件</title>
+    <style>
+        html,
+        body,
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        ol,
+        li {
+            list-style: none;
+            box-sizing: border-box;
+        }
+
+        .app_icon {
+            display: inline-block;
+            vertical-align: middle;
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+        }
+
+        .app_name {
+            font-size: 28px;
+            vertical-align: middle;
+        }
+
+        .component_ul {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .component_ul li {
+            font-size: 22px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 60px;
+            height: 60px;
+            border: 2px solid #dbdbdb;
+            padding: 0 10px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .list_warpper {
+            margin: 0 30px;
+        }
+
+        .component_wrapper {
+            box-sizing: border-box;
+            margin-bottom:30px;
+            padding-right:30px;
+        }
+
+        @media screen and (max-width: 720px) {
+            .component_ul .component_wrapper {
+                width: 100%;
+            }
+        }
+        @media screen and (min-width: 720px) and ( max-width: 1280px) {
+            .component_ul .component_wrapper {
+                width: 50%;
+            }
+        }
+        @media screen and ( min-width: 1280px) and (max-width: 1440px) {
+            .component_ul .component_wrapper {
+                width: 33.3%;
+            }
+        }
+        @media screen and (min-width: 1440px) {
+            .component_ul .component_wrapper {
+                width: 25%;
+            }
+        }
+
+    </style>
 </head>
 
 <body>
-    <h1>{{project}}</h1>
-    <ul>
+    <h1 class="header">{{project}}</h1>
+    <ul class="list_warpper">
         {{each appList as app}}
-        <li>{{app.appName}}</li>
-        <ul>
+        <li>
+            <img src="/app_icon.png" alt="app_icon" class="app_icon">
+            <span class="app_name">{{app.appName}}</span>
+        </li>
+        <ul class="component_ul">
             {{each app.componentsList as component}}
-            <li onclick="handleClick('{{component.id}}')">{{component.componentName}}</li>
+            <div class="component_wrapper">
+                <li onclick="handleClick('{{component.id}}')">{{component.componentName}}</li>
+            </div>
             {{/each}}
         </ul>
         {{/each}}
@@ -32,7 +119,7 @@
         socket.on("connect", () => {
             console.log("Connect ccws socket server success!")
         });
-        socket.on('workFolderChange',()=>{
+        socket.on('workFolderChange', () => {
             console.log('update ccws work folder')
             window.location.reload();
         })

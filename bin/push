@@ -176,9 +176,6 @@ try {
                     path: component.componentOutputPath,
                     libraryTarget: 'commonjs',
                 },
-                experiments: {
-                    asset: true
-                },
                 module: {
                     generator: {
                         asset: {

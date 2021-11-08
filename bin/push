@@ -190,6 +190,10 @@ try {
                                 filename: '[hash][ext]',
                             },
                         },
+                        {
+                            test: /\.(mtl|obj)$/i,
+                            type: 'asset/resource',
+                        }
                     ]
                 },
                 mode: 'production',

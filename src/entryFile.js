@@ -9,6 +9,7 @@ const renderTpl = (info) => {
     return `
 import React, { Fragment, useState } from 'react';
 import ReactDOM from 'react-dom';
+import 'antd/dist/antd.css';
 
 import Component from '${info.componentEntryPath}'
 const App = () => {

@@ -69,6 +69,6 @@
     "config",
     "public",
     "src",
-    "./tsconfig.json"
+    "tsconfig.json"
   ]
 }

@@ -1,12 +1,16 @@
 {
   "name": "supos-ccws-scripts",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "license": "MIT",
-  "main":"bin/index",
+  "main": "bin/index",
   "author": "noopn",
   "keywords": [
     "ccws-cli-scripts"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git@121.40.212.76:2222/sunzhiqi/supos-ccws-scripts.git"
+  },
   "bin": {
     "supos-ccws-scripts": "bin/index",
     "supos-ccws-scripts-pull": "bin/pull",
@@ -25,6 +29,7 @@
     "chalk": "^4.1.2",
     "clean-webpack-plugin": "^4.0.0",
     "commander": "^8.3.0",
+    "core-js": "^3.19.1",
     "css-loader": "^6.5.0",
     "file-loader": "^6.2.0",
     "form-data": "^4.0.0",
@@ -42,6 +47,7 @@
     "moment": "2.29.1",
     "open": "^8.4.0",
     "ora": "^5.4.1",
+    "postcss": "^8.3.11",
     "postcss-loader": "^6.2.0",
     "postcss-preset-env": "^6.7.0",
     "react": "^17.0.2",
@@ -52,15 +58,17 @@
     "socket.io": "^4.3.1",
     "style-loader": "^3.3.1",
     "url-loader": "^4.1.1",
+    "uuid": "^8.3.2",
     "validator": "^13.7.0",
     "webpack": "^5.61.0",
     "webpack-dev-server": "^4.4.0",
     "webpack-merge": "^5.8.0"
   },
   "files": [
-    ".bin",
+    "bin",
     "config",
     "public",
-    "src"
+    "src",
+    "./tsconfig.json"
   ]
 }

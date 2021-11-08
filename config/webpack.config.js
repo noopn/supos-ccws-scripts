@@ -68,17 +68,13 @@ module.exports = {
                         require.resolve('@babel/preset-react'),
                         require.resolve('@babel/preset-typescript')
                     ]
-                },
-                exclude: /node_modules/,
+                }
             }]
     },
 
     resolve: {
         extensions: ['.tsx', '.jsx', '.ts', '.js'],
         modules: [path.resolve(__dirname, '../node_modules'), path.resolve(process.cwd(), './node_modules')],
-    },
-    resolveLoader: {
-        modules: [path.resolve(__dirname, '../node_modules')],
     }
 };
 

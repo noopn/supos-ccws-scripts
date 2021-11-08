@@ -17,7 +17,6 @@ const devServer = async (appInfo) => {
         componentOutputPath
     } = appInfo;
     
-    console.log(appInfo);
     const entryTpl = entryFile(appInfo);
 
     await fse.remove(SERVER_ENTRY_PATH);
@@ -29,6 +28,7 @@ const devServer = async (appInfo) => {
         output: {
             path: componentOutputPath,
         },
+        devtool:"eval-source-map",
         mode: 'development',
         module: {
             rules: [{

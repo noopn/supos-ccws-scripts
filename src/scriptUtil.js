@@ -1,4 +1,8 @@
+import moment from 'moment';
+let invervalFunc = null;
+let reviceUrl = null;
 function request(url, options, isHiddenNote, isPassTicket = true, skipCodeVerify = false) {
+
     const defaultOptions = {
         credentials: 'same-origin'
         // credentials: 'same-origin'
@@ -40,7 +44,7 @@ function request(url, options, isHiddenNote, isPassTicket = true, skipCodeVerify
             .then((response) => {
                 // 如果HTTP400以上的返回信息中有message，优先采用返回response的message，如果没有，则采用自定义的status状态信息
                 if (response.status >= 400) {
-                    response.message = response.message || codeMessage[response.status] || response.statusText;
+                    response.message = response.message || response.statusText;
                 }
                 return response;
             })
@@ -92,7 +96,7 @@ function request(url, options, isHiddenNote, isPassTicket = true, skipCodeVerify
                 }
                 // 如果返回403，后台正在还原文件，不可继续操作
                 if (+res.code === 425) {
-                    const rUrl = `${config.domain2}/api/config/system/restore/status`;
+                    const rUrl = `/api/config/system/restore/status`;
                     // 还原状态URL
                     if (!invervalFunc) {
                         dispatch({
@@ -197,7 +201,7 @@ const helper = {
 
 function requestNew({ api, param, cb }) {
     return request(api, param).then((res) => {
-        if (res && isFunction(cb)) {
+        if (res && _.isFunction(cb)) {
             cb(res);
         }
         return res;
@@ -214,7 +218,7 @@ function serviceApi(...rest) {
         cb,
         removeResult // 兼容2.7版本的 queryDataTable
     } = reqParam;
-    const api = `${config.domainDam}/callServiceByPath`;
+    const api = `/project/dam/supngin/api/dam/callServiceByPath`;
     const param = {
         method,
         headers: {
@@ -234,7 +238,7 @@ function serviceApi(...rest) {
         return requestNew({ api, param })
             .then((res) => {
                 if (res && res.result && removeResult) {
-                    if (isFunction(cb)) {
+                    if (_.isFunction(cb)) {
                         cb({
                             ...res.result,
                             code: 200
@@ -242,7 +246,7 @@ function serviceApi(...rest) {
                     }
                     return res.result;
                 }
-                if (isFunction(cb)) cb(res);
+                if (_.isFunction(cb)) cb(res);
                 return res;
             });
     } else {
@@ -255,4 +259,4 @@ function executeInstanceScriptService(...rest) {
     serviceApi(appID, newParam);
 }
 
-export const executeScriptService = executeInstanceScriptService;
+export const excuteScriptService = executeInstanceScriptService;

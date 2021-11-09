@@ -75,6 +75,9 @@ module.exports = {
     resolve: {
         extensions: ['.tsx', '.jsx', '.ts', '.js'],
         modules: [path.resolve(__dirname, '../node_modules'), path.resolve(process.cwd(), './node_modules')],
+    },
+    resolveLoader: {
+        modules: [path.resolve(__dirname, '../node_modules'), path.resolve(process.cwd(), './node_modules')],
     }
 };
 

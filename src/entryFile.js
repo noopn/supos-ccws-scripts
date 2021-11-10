@@ -11,8 +11,8 @@ import React, { Fragment, useState } from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 
-import Component from '${info.componentEntryPath}'
 const App = () => {
+    const [Component,setComponent] = useState(()=>()=>null);
     ${info.isExample ? '' : `
 React.useEffect(async ()=>{
     const ticket = window.localStorage.getItem('ticket');
@@ -40,7 +40,10 @@ React.useEffect(async ()=>{
     .then(response => response.json()) 
     .then(res=>{
         window.localStorage.setItem('loginMsg',JSON.stringify(res))
-        window.localStorage.setItem('ticket',res.ticket)
+        window.localStorage.setItem('ticket',res.ticket);
+        return import('${info.componentEntryPath}')
+    }).then(C=>{
+        setComponent(()=>C.default);
     })
 },[])` }
 

@@ -1,6 +1,6 @@
 
 const path = require('path');
-
+const { VueLoaderPlugin } = require('vue-loader')
 module.exports = {
     output: {
         filename: 'index.js',
@@ -42,6 +42,7 @@ module.exports = {
                         test: /\.(css|scss)$/,
                         use: [
                             require.resolve('style-loader'),
+                            require.resolve('vue-style-loader'),
                             require.resolve('css-loader'),
                             {
                                 loader: require.resolve('postcss-loader'),
@@ -61,6 +62,10 @@ module.exports = {
                 ]
             },
             {
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            },
+            {
                 test: /\.(js|mjs|jsx|ts|tsx)$/,
                 loader: require.resolve('babel-loader'),
                 options: {
@@ -68,11 +73,12 @@ module.exports = {
                         require.resolve('@babel/preset-react'),
                         require.resolve('@babel/preset-typescript')
                     ],
-                    "plugins": ["vuera/babel"]
                 }
             }]
     },
-
+    plugins: [
+        new VueLoaderPlugin(),
+    ],
     resolve: {
         extensions: ['.tsx', '.jsx', '.ts', '.js'],
         modules: [path.resolve(__dirname, '../node_modules'), path.resolve(process.cwd(), './node_modules')],

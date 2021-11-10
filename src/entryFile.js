@@ -16,7 +16,6 @@ const App = () => {
     ${info.isExample ? `
     React.useEffect(async ()=>{
         import('${info.componentEntryPath}').then(C=>{
-            console.log(C);
             setComponent(()=>C.default);
         })
     })

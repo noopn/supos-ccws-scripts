@@ -47,7 +47,9 @@ const compareDependencies = () => {
         "react-dom": "^17.0.2",
         "lodash": "^4.17.21",
         "antd": "^4.16.13",
-        "moment":"^2.29.1"
+        "moment":"^2.29.1",
+        "vue": "^2.6.14",
+        "vuera": "^0.2.7",
     }
 
     const depList = Object.keys(localDeps);

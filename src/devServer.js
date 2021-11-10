@@ -34,6 +34,10 @@ const devServer = async (appInfo) => {
             rules: [{
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
                 type: 'asset/resource',
+            },
+            {
+                test: /\.(mtl|obj)$/i,
+                type: 'asset/resource',
             }]
         },
         plugins: [new HtmlWebpackPlugin({

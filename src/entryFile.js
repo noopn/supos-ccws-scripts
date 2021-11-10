@@ -13,7 +13,14 @@ import 'antd/dist/antd.css';
 
 const App = () => {
     const [Component,setComponent] = useState(()=>()=>null);
-    ${info.isExample ? '' : `
+    ${info.isExample ? `
+    React.useEffect(async ()=>{
+        import('${info.componentEntryPath}').then(C=>{
+            console.log(C);
+            setComponent(()=>C.default);
+        })
+    })
+    ` : `
 React.useEffect(async ()=>{
     const ticket = window.localStorage.getItem('ticket');
     await fetch("${LOGOUT_API}",{
@@ -43,6 +50,7 @@ React.useEffect(async ()=>{
         window.localStorage.setItem('ticket',res.ticket);
         return import('${info.componentEntryPath}')
     }).then(C=>{
+        console.log(C);
         setComponent(()=>C.default);
     })
 },[])` }

@@ -49,7 +49,6 @@ React.useEffect(async ()=>{
         window.localStorage.setItem('ticket',res.ticket);
         return import('${info.componentEntryPath}')
     }).then(C=>{
-        console.log(C);
         setComponent(()=>C.default);
     })
 },[])` }

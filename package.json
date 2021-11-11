@@ -70,10 +70,10 @@
     "webpack-merge": "^5.8.0"
   },
   "files": [
-    "bin",
-    "config",
-    "public",
-    "src",
+    "bin/",
+    "config/",
+    "public/",
+    "src/",
     "tsconfig.json"
   ]
 }

@@ -220,6 +220,13 @@ const checkAppPath = (appPathMap) => {
     }
 }
 
+const convertImportPath = (path) => {
+    if(path.sep==='\\'){
+        return path.split(path.sep).join('\\\\');
+    }
+    return path;
+}
+
 module.exports = {
     dateFormat,
     compareDependencies,
@@ -227,5 +234,6 @@ module.exports = {
     analysisLockInfo,
     analysisLock2DiffMap,
     checkAppPath,
-    analysisLockData
+    analysisLockData,
+    convertImportPath
 }

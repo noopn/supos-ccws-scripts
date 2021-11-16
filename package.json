@@ -1,6 +1,6 @@
 {
   "name": "supos-ccws-scripts",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "license": "MIT",
   "main": "bin/index",
   "author": "noopn",
@@ -9,7 +9,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@121.40.212.76:2222/sunzhiqi/supos-ccws-scripts.git"
+    "url": "https://github.com/noopn/supos-ccws-scripts.git"
   },
   "bin": {
     "supos-ccws-scripts": "bin/index",
@@ -70,10 +70,10 @@
     "webpack-merge": "^5.8.0"
   },
   "files": [
-    "bin/",
-    "config/",
-    "public/",
-    "src/",
+    "bin",
+    "config",
+    "public",
+    "src",
     "tsconfig.json"
   ]
 }

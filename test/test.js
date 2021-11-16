@@ -33,3 +33,7 @@
 // const url = require('url');
 
 // console.log(url.resolve('http://enginee-3.demo.devcloud.supos.net//', '/inter-api//auth/logout')) 
+
+const {convertImportPath} = require('../src/util');
+
+convertImportPath('c:\\w\\wef\\wefw')

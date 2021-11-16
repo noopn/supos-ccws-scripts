@@ -1,6 +1,8 @@
 # dependencies
-node_modules/
-.cache/
+node_modules
+.cache
 
 # test
-test/
+test
+.yarnclean
+yarn-error.log

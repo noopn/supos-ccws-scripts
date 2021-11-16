@@ -220,11 +220,11 @@ const checkAppPath = (appPathMap) => {
     }
 }
 
-const convertImportPath = (path) => {
+const convertImportPath = (importPath) => {
     if(path.sep==='\\'){
-        return path.split(path.sep).join('\\\\');
+        return importPath.split(path.sep).join('\\\\');
     }
-    return path;
+    return importPath;
 }
 
 module.exports = {

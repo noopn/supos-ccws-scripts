@@ -3,7 +3,6 @@ const {
     LOGOUT_API
 } = require('../config')
 
-const {convertImportPath} = require('../src/util');
 
 const renderTpl = (info) => {
     return `
@@ -15,7 +14,7 @@ const App = () => {
     const [Component,setComponent] = useState(()=>()=>null);
     ${info.isExample ? `
     React.useEffect(async ()=>{
-        import('${convertImportPath(info.componentEntryPath)}').then(C=>{
+        import('${info.componentEntryPath}').then(C=>{
             setComponent(()=>C.default);
         })
     })

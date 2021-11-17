@@ -184,15 +184,20 @@ try {
                     },
                     rules: [
                         {
-                            test: /\.(png|jpe?g|gif|webp)$/,
+                            test: /\.(png|jpe?g|gif|webp|svg)$/,
                             type: 'asset',
                             generator: {
-                                filename: '[hash][ext]',
+                                filename: '[name][ext][query]',
+                                publicPath:`resource/${component.appId}/extensions/${component.componentName}/compiled/`
                             },
                         },
                         {
                             test: /\.(mtl|obj)$/i,
                             type: 'asset/resource',
+                            generator: {
+                                filename: '[name][ext][query]',
+                                publicPath:`resource/${component.appId}/extensions/${component.componentName}/compiled/`
+                            }
                         }
                     ]
                 },

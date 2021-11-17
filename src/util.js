@@ -159,8 +159,8 @@ const analysisWorkFolder = async () => {
 
         const componentsList = componentPaths.map(componentPath => {
             const componentName = String(componentPath.split('/').slice(-1));
-            const componentEntryPath = path.join(componentPath, './source');
-            const componentOutputPath = path.join(componentPath, './compiled');
+            const componentEntryPath = path.join(componentPath, './source').split(path.sep).join('/');
+            const componentOutputPath = path.join(componentPath, './compiled').split(path.sep).join('/');
             const compObj = {
                 id: uid(),
                 componentName,
@@ -220,12 +220,6 @@ const checkAppPath = (appPathMap) => {
     }
 }
 
-const convertImportPath = (importPath) => {
-    if(path.sep==='\\'){
-        return importPath.split(path.sep).join('\\\\');
-    }
-    return importPath;
-}
 
 module.exports = {
     dateFormat,
@@ -235,5 +229,4 @@ module.exports = {
     analysisLock2DiffMap,
     checkAppPath,
     analysisLockData,
-    convertImportPath
 }

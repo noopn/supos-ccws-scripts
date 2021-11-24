@@ -25,9 +25,12 @@ const {
 
 const {
     dateFormat,
+    convertPath
 } = require('./util');
 
 const pipeline = promisify(stream.pipeline);
+
+const cwd  = convertPath(process.cwd());
 
 EventEmitter.setMaxListeners(1000)
 
@@ -85,24 +88,28 @@ const loopAnalysisCustomComponent = async (app, folderList) => {
     await Promise.all(
         folderList.map(async folder => {
             const { body: { fileInfoList } } = await fetchAppsFiles(folder.path, app);
-            const localAppPath = path.join(process.cwd(), 'src', app.name);
-
+            const localAppPath = `${cwd}/src/${app.name}`;
+            
             await Promise.all(
                 fileInfoList.map(async file => {
-                    const exDir = path.parse(file.path).dir.split('/extensions')[1];
-                    const componentName = file.path.split('/')[2];
+                    const pathOptions  = path.parse(file.path);
+                    const exDir = pathOptions.dir.split('/extensions/')[1];
 
-                    const localComponentPath = path.join(localAppPath, componentName);
-                    const localFileFolder = path.join(localAppPath, exDir);
-                    await fse.ensureDir(localFileFolder);
+                    const componentName = file.path.split('/')[2];
+                    const localComponentPath = `${localAppPath}/${componentName}`;
+                    const localFileFolder =  `${localAppPath}/${exDir}`
+
+                    fse.ensureDirSync(localFileFolder);
 
                     spinner.start(chalk.hex('#e4e4e4')(`File: ${file.path} ${chalk.hex('#FFCD3A')(file.size)}`));
 
-                    const localFilePath = path.join(localFileFolder, path.basename(file.path));
+                    const localFilePath = `${localFileFolder}/${pathOptions.base}`;
+                    
                     await pipeline(
                         requestStream(file.fullPath),
                         fse.createWriteStream(localFilePath, { 'flags': 'a' })
                     );
+
                     const fileOptions = {
                         fileName: file.fileName,
                         fileType: file.fileType,
@@ -133,9 +140,9 @@ const loopAnalysisCustomComponent = async (app, folderList) => {
                 hasSub,
                 path:folderPath
             } = folder;
-            const baseLocalFolderPath = folderPath.split('/extensions')[1];
-            const localFolderPath = path.join(localAppPath,baseLocalFolderPath);
-            const localComponentPath = path.join(localAppPath,baseLocalFolderPath.split('/').slice(0,2).join('/'))
+            const baseLocalFolderPath = folderPath.split('/extensions/')[1];
+            const localFolderPath = `${localAppPath}/${baseLocalFolderPath}`;
+            const localComponentPath = `${localAppPath}/${baseLocalFolderPath.split('/').slice(0,2).join('/')}`;
             let folderLockData = '';
             folderLockData+=`<@id>${localFolderPath}\n`;
             folderLockData+=`  <@folderName>${folderName}\n`;
@@ -185,21 +192,6 @@ const analysisPath = async () => {
 
     const listIdMap = list.reduce((map, app) => { map[app.appId] = app; return map }, {});
 
-    // const { syncAll } = await inquirer.prompt([
-    //     {
-    //         type: 'list',
-    //         name: 'syncAll',
-    //         message: 'Do you want to sync all apps (will pull all files in your folder) ?',
-    //         choices: [{
-    //             name: 'Yes',
-    //             value: true
-    //         }, {
-    //             name: 'No',
-    //             value: false
-    //         }],
-    //     },
-    // ])
-
     list = await inquirer.prompt([
         {
             type: 'checkbox',
@@ -213,18 +205,6 @@ const analysisPath = async () => {
     ]).then(({ syncList }) => {
         return syncList.map(appId => listIdMap[appId])
     })
-
-    // const {forceSync} = await inquirer.prompt([
-    //     {
-    //         type: 'list',
-    //         name: 'forceSync',
-    //         message: 'Use force sync (will clear your workspace before sync) ?',
-    //         choices:[
-    //             {name:'Yes',value:true,checked:true},
-    //             {name:'No',value:false},
-    //         ]
-    //     },
-    // ])
 
     if (!list || !list.length) {
 

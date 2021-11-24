@@ -12,9 +12,7 @@ const analysisPath = require('./analysisPath');
 
 const pull = async () => {
     try {
-
         const loginMsg = await login();
-
         if(loginMsg.adminLimit) {
             console.log(
                 chalk.black.bgHex('#cb3837')('connect error'),
@@ -24,9 +22,7 @@ const pull = async () => {
         }
 
         context.set('loginMsg',loginMsg);
-
         await analysisPath();
-
         await logout();
 
     }catch (err) {

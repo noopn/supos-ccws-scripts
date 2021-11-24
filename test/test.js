@@ -34,6 +34,11 @@
 
 // console.log(url.resolve('http://enginee-3.demo.devcloud.supos.net//', '/inter-api//auth/logout')) 
 
-const {convertImportPath} = require('../src/util');
+// const {convertImportPath} = require('../src/util');
 
-convertImportPath('c:\\w\\wef\\wefw')
+// convertImportPath('c:\\w\\wef\\wefw')
+
+
+const path = require('path');
+
+console.log(path.parse('D:/wegwe/wgweg/weg/'));

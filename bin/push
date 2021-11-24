@@ -26,7 +26,8 @@ const {
     compareDependencies,
     analysisLockData,
     checkAppPath,
-    analysisLockInfo
+    analysisLockInfo,
+    convertPath
 } = require('../src/util');
 
 
@@ -62,8 +63,9 @@ if (!hasLockFile && !hasInfoFile) {
     process.exit(0);
 }
 
-const basePath = path.resolve(process.cwd(), './src');
+const cwd = convertPath(process.cwd());
 
+const basePath = `${cwd}/src`;
 
 try {
     (async () => {
@@ -232,8 +234,9 @@ try {
 
         const syncList = [];
         await Promise.all(componentNeedToSync.map(async component => {
-            const syncFilePath = glob.sync(path.join(component.id, './**/**'));
+            const syncFilePath = glob.sync(`${component.id}/**/**`);
             await Promise.all(syncFilePath.map(async fileOrFolderPath => {
+                console.log(fileOrFolderPath);
                 const stat = fse.statSync(fileOrFolderPath);
                 const restFolderPath = fileOrFolderPath.split(basePath)[1];
                 const [_, appName, ...restPath] = restFolderPath.split('/');
@@ -247,11 +250,12 @@ try {
                         parentPath: `/resource/${component.appId}/extensions/${restPath.slice(0, -1).join('/')}`,
                         localFolderPath: fileOrFolderPath,
                         localFolderParentPath: fileOrFolderPath.split('/').slice(0, -1).join('/'),
-                        localAppPath: path.join(basePath, appName),
-                        localComponentPath: path.join(basePath, appName, component.componentName),
+                        localAppPath: `${basePath}/${appName}`,
+                        localComponentPath:`${basePath}/${appName}/${component.componentName}`,
                         appId: component.appId,
                         type: 'folder'
                     }
+                    console.log(folderInfo);
                     if (lockFolderMap[folderInfo.localFolderParentPath]) lockFileAndFolderMap[folderInfo.localFolderParentPath].hasSub = true;
 
                     lockFileAndFolderMap[fileOrFolderPath] = folderInfo;
@@ -267,13 +271,14 @@ try {
                         hash,
                         path: `/extensions/${restPath.join('/')}`,
                         fullPath: `/resource/${component.appId}/extensions/${restPath.join('/')}`,
-                        localAppPath: path.join(basePath, appName),
-                        localComponentPath: path.join(basePath, appName, component.componentName),
+                        localAppPath: `${basePath}/${appName}`,
+                        localComponentPath: `${basePath}/${appName}/${component.componentName}`,
                         localFileFolder: fileOrFolderPath.split('/').slice(-1).join('/'),
                         localFilePath: fileOrFolderPath,
                         appId: component.appId,
                         type: 'file'
                     }
+                    console.log(fileInfo);
                     lockFileAndFolderMap[fileOrFolderPath] = fileInfo;
                     syncList.push({
                         ...fileInfo,

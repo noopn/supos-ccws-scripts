@@ -3,8 +3,12 @@ const {
     LOGOUT_API
 } = require('../config')
 
+const {
+    convertPath
+}  = require('./util');
 
 const renderTpl = (info) => {
+    console.log(info)
     return `
 import React, { Fragment, useState } from 'react';
 import ReactDOM from 'react-dom';
@@ -14,7 +18,7 @@ const App = () => {
     const [Component,setComponent] = useState(()=>()=>null);
     ${info.isExample ? `
     React.useEffect(async ()=>{
-        import('${info.componentEntryPath}').then(C=>{
+        import('${convertPath(info.componentEntryPath)}').then(C=>{
             setComponent(()=>C.default);
         })
     })
@@ -46,7 +50,7 @@ React.useEffect(async ()=>{
     .then(res=>{
         window.localStorage.setItem('loginMsg',JSON.stringify(res))
         window.localStorage.setItem('ticket',res.ticket);
-        return import('${info.componentEntryPath}')
+        return import('${convertPath(info.componentEntryPath)}')
     }).then(C=>{
         setComponent(()=>C.default);
     })

@@ -9,9 +9,8 @@ const request = async (method="GET",api,body) => {
     const inquirerOptions = context.get('options');
 
     const loginMsg = context.get('loginMsg');
-    const headers = {
-        // 'Content-Type':'application/json; charset=utf-8',
-    }
+    const headers = {};
+    
     if(loginMsg) {
         Object.assign(headers,{
             'Authorization':`Bearer ${loginMsg.ticket}`

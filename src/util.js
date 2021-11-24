@@ -14,7 +14,13 @@ const {
     INFO_CACHE_PATH
 } = require('../config/index');
 
+
 const uid = () => Math.random().toString(36).substring(2, 10);
+
+
+const convertPath = (_path) => {
+    return _path.split(path.sep).join('/');
+}
 
 const dateFormat = (time)=>{
 
@@ -158,9 +164,9 @@ const analysisWorkFolder = async () => {
         const appName = String(appPath.split('/').slice(-1));
 
         const componentsList = componentPaths.map(componentPath => {
-            const componentName = String(componentPath.split('/').slice(-1));
-            const componentEntryPath = path.join(componentPath, './source').split(path.sep).join('/');
-            const componentOutputPath = path.join(componentPath, './compiled').split(path.sep).join('/');
+            const [componentName] = componentPath.split('/').slice(-1);
+            const componentEntryPath = path.join(componentPath, './source');
+            const componentOutputPath = path.join(componentPath, './compiled');
             const compObj = {
                 id: uid(),
                 componentName,
@@ -168,6 +174,7 @@ const analysisWorkFolder = async () => {
                 componentEntryPath,
                 componentOutputPath
             }
+
             componentsMap.set(compObj.id, compObj);
 
             return compObj;
@@ -229,4 +236,5 @@ module.exports = {
     analysisLock2DiffMap,
     checkAppPath,
     analysisLockData,
+    convertPath
 }

@@ -34,7 +34,6 @@ const request = async (method="GET",api,body) => {
         return await got(requestUrl,options);
     }catch(err){
         const errorBody = err.response.body;
-        console.log(errorBody);
         if(errorBody.code==='600001') {
             // folder already exists
         }else{

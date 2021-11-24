@@ -236,7 +236,6 @@ try {
         await Promise.all(componentNeedToSync.map(async component => {
             const syncFilePath = glob.sync(`${component.id}/**/**`);
             await Promise.all(syncFilePath.map(async fileOrFolderPath => {
-                console.log(fileOrFolderPath);
                 const stat = fse.statSync(fileOrFolderPath);
                 const restFolderPath = fileOrFolderPath.split(basePath)[1];
                 const [_, appName, ...restPath] = restFolderPath.split('/');
@@ -255,7 +254,6 @@ try {
                         appId: component.appId,
                         type: 'folder'
                     }
-                    console.log(folderInfo);
                     if (lockFolderMap[folderInfo.localFolderParentPath]) lockFileAndFolderMap[folderInfo.localFolderParentPath].hasSub = true;
 
                     lockFileAndFolderMap[fileOrFolderPath] = folderInfo;
@@ -278,7 +276,6 @@ try {
                         appId: component.appId,
                         type: 'file'
                     }
-                    console.log(fileInfo);
                     lockFileAndFolderMap[fileOrFolderPath] = fileInfo;
                     syncList.push({
                         ...fileInfo,

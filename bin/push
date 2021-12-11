@@ -219,7 +219,8 @@ try {
                 externals: {
                     react: 'commonjs2 react',
                     lodash: 'commonjs2 lodash',
-                    moment: 'commonjs2 moment'
+                    moment: 'commonjs2 moment',
+                    antd:'commonjs2 antd'
                 },
                 plugins: [
                     new CleanWebpackPlugin()

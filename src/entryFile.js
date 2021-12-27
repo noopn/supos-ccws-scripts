@@ -16,15 +16,15 @@ import 'antd/dist/antd.css';
 const App = () => {
     const [Component,setComponent] = useState(()=>()=>null);
     ${info.isExample ? `
-    React.useEffect(async ()=>{
+    React.useEffect(()=>{
         import('${convertPath(info.componentEntryPath)}').then(C=>{
             setComponent(()=>C.default);
         })
     })
     ` : `
-React.useEffect(async ()=>{
+React.useEffect(()=>{
     const ticket = window.localStorage.getItem('ticket');
-    await fetch("${LOGOUT_API}",{
+    fetch("${LOGOUT_API}",{
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json; charset=utf-8'
@@ -32,17 +32,18 @@ React.useEffect(async ()=>{
         headers:{
             'Authorization':\`Bearer $\{ticket\}\`
         }
-    });
-    await fetch("${LOGIN_API}",{
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8'
-        },
-        body: JSON.stringify({
-            autoLogin: false,
-            clientId: "ms-content-sample",
-            password: "${info.password}",
-            userName: "${info.username}"
+    }).then(()=>{
+        return fetch("${LOGIN_API}",{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            },
+            body: JSON.stringify({
+                autoLogin: false,
+                clientId: "ms-content-sample",
+                password: "${info.password}",
+                userName: "${info.username}"
+            })
         })
     })
     .then(response => response.json()) 

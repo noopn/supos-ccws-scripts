@@ -1,6 +1,6 @@
 {
   "name": "supos-ccws-scripts",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "license": "MIT",
   "main": "bin/index",
   "author": "noopn",

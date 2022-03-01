@@ -220,7 +220,8 @@ try {
                     react: 'commonjs2 react',
                     lodash: 'commonjs2 lodash',
                     moment: 'commonjs2 moment',
-                    antd:'commonjs2 antd'
+                    antd:'commonjs2 antd',
+                    WebView:'commonjs2 WebView',
                 },
                 plugins: [
                     new CleanWebpackPlugin()

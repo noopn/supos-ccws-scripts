@@ -232,7 +232,7 @@ try {
                     type: "asset",
                     generator: {
                       filename: "[name][ext][query]",
-                      publicPath: `resource/${component.appId}/extensions/${component.componentName}/compiled/`,
+                      publicPath: `/resource/${component.appId}/extensions/${component.componentName}/compiled/`,
                     },
                   },
                   {
@@ -240,7 +240,7 @@ try {
                     type: "asset/resource",
                     generator: {
                       filename: "[name][ext][query]",
-                      publicPath: `resource/${component.appId}/extensions/${component.componentName}/compiled/`,
+                      publicPath: `/resource/${component.appId}/extensions/${component.componentName}/compiled/`,
                     },
                   },
                 ],

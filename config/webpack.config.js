@@ -56,15 +56,17 @@ module.exports = {
           {
             loader: "babel-loader",
             options: {
-              sourceType: "unambiguous",
+              // sourceType: "unambiguous",
               presets: [
-                [
-                  require.resolve("@babel/preset-env"),
-                  {
-                    useBuiltIns: "usage",
-                    corejs: "3.34",
-                  },
-                ],
+                require.resolve("@babel/preset-env"),
+
+                // [
+                //   require.resolve("@babel/preset-env"),
+                //   {
+                //     useBuiltIns: "usage",
+                //     corejs: "3.34",
+                //   },
+                // ],
                 require.resolve("@babel/preset-react"),
                 require.resolve("@babel/preset-typescript"),
               ],

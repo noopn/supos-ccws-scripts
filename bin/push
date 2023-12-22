@@ -269,7 +269,7 @@ try {
             });
 
             const compiler = webpack(webpackConfig);
-            compiler.run((a,b)=>{console.log(a,b);resolve()});
+            compiler.run(resolve);
           })
       )
     );

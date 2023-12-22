@@ -1,6 +1,4 @@
-const { stat } = require("fs/promises");
 const path = require("path");
-// const { VueLoaderPlugin } = require("vue-loader");
 module.exports = {
   output: {
     filename: "index.js",
@@ -13,9 +11,9 @@ module.exports = {
           {
             test: /\.module\.(css|scss)$/,
             use: [
-              require.resolve("style-loader"),
+              "style-loader",
               {
-                loader: require.resolve("css-loader"),
+                loader: "css-loader",
                 options: {
                   modules: true,
                   importLoaders: 1,
@@ -23,49 +21,56 @@ module.exports = {
               },
 
               {
-                loader: require.resolve("postcss-loader"),
+                loader: "postcss-loader",
                 options: {
                   postcssOptions: {
                     plugins: [["postcss-preset-env"]],
                   },
                 },
               },
-              require.resolve("sass-loader"),
+              "sass-loader",
             ],
           },
           {
             test: /\.(css|scss)$/,
             use: [
-              require.resolve("style-loader"),
+              "style-loader",
               //   require.resolve("vue-style-loader"),
-              require.resolve("css-loader"),
+              "css-loader",
               {
-                loader: require.resolve("postcss-loader"),
+                loader: "postcss-loader",
                 options: {
                   postcssOptions: {
-                    plugins: [[require.resolve("postcss-preset-env")]],
+                    plugins: [["postcss-preset-env"]],
                   },
                 },
               },
-              require.resolve("sass-loader"),
+              "sass-loader",
             ],
           },
         ],
       },
-      //   {
-      //     test: /\.vue$/,
-      //     loader: "vue-loader",
-      //   },
-
       {
         test: /\.(js|mjs|jsx|ts|tsx)$/,
-        loader: require.resolve("babel-loader"),
-        options: {
-          presets: [
-            require.resolve("@babel/preset-react"),
-            require.resolve("@babel/preset-typescript"),
-          ],
-        },
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              sourceType: "unambiguous",
+              presets: [
+                [
+                  require.resolve("@babel/preset-env"),
+                  {
+                    useBuiltIns: "usage",
+                    corejs: "3.34",
+                  },
+                ],
+                require.resolve("@babel/preset-react"),
+                require.resolve("@babel/preset-typescript"),
+              ],
+            },
+          },
+        ],
       },
     ],
   },

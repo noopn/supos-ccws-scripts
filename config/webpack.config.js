@@ -15,7 +15,10 @@ module.exports = {
               {
                 loader: "css-loader",
                 options: {
-                  modules: true,
+                  modules: {
+                    mode: "local",
+                    localIdentName: "[local]_[hash:base64:5]",
+                  },
                   importLoaders: 1,
                 },
               },
@@ -72,7 +75,6 @@ module.exports = {
   stats: {
     warningsFilter: [/text-decoration-skip/, /version/],
   },
-  //   plugins: [new VueLoaderPlugin()],
   resolve: {
     extensions: [".tsx", ".jsx", ".ts", ".js"],
     modules: [

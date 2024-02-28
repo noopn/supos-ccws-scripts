@@ -4,19 +4,21 @@ const fse = require("fs-extra");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WebpackDevServer = require("webpack-dev-server");
 const { merge } = require("webpack-merge");
-const baseConfig = require("../config/webpack.config");
 const entryFile = require("../src/entryFile");
+const { getBaseConfig } = require("./util");
 
 const { SERVER_ENTRY_PATH } = require("../config");
 
 const devServer = async (appInfo) => {
-  const { componentName, componentOutputPath } = appInfo;
+  const { componentName, componentOutputPath,componentPath } = appInfo;
 
   const entryTpl = entryFile(appInfo);
-
+  
   await fse.remove(SERVER_ENTRY_PATH);
   await fse.ensureFile(SERVER_ENTRY_PATH);
   await fse.writeFile(SERVER_ENTRY_PATH, entryTpl);
+
+  const baseConfig = await getBaseConfig(componentPath);
 
   const webpackConfig = merge(baseConfig, {
     entry: SERVER_ENTRY_PATH,

@@ -5,11 +5,16 @@ const fse = require("fs-extra");
 const glob = require("glob");
 const ora = require("ora");
 const chalk = require("chalk");
+const baseConfig = require("../config/webpack.config");
+const webpack = require("webpack");
 
 const spinner = ora();
 const { LOCK_CACHE_PATH, INFO_CACHE_PATH } = require("../config/index");
 
-const uid = () => Math.random().toString(36).substring(2, 10);
+const uid = () =>
+  Math.random()
+    .toString(36)
+    .substring(2, 10);
 
 const convertPath = (_path) => {
   return _path.split(path.sep).join("/");
@@ -227,6 +232,21 @@ const checkAppPath = (appPathMap) => {
   }
 };
 
+const getBaseConfig = async (componentPath) => {
+  const definePath = path.join(componentPath, "define.js");
+
+  if (!fse.pathExistsSync(definePath)) return baseConfig;
+
+  let defineConfig = require(definePath);
+
+  if (typeof defineConfig === "function") {
+    defineConfig = await defineConfig();
+  }
+  baseConfig.plugins.push(new webpack.DefinePlugin(defineConfig));
+
+  return baseConfig;
+};
+
 module.exports = {
   dateFormat,
   compareDependencies,
@@ -236,4 +256,5 @@ module.exports = {
   checkAppPath,
   analysisLockData,
   convertPath,
+  getBaseConfig,
 };

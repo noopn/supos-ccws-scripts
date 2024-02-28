@@ -1,4 +1,5 @@
 const path = require("path");
+
 module.exports = {
   output: {
     filename: "index.js",
@@ -88,4 +89,5 @@ module.exports = {
       path.resolve(process.cwd(), "./node_modules"),
     ],
   },
+  plugins: [],
 };

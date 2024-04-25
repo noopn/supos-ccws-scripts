@@ -226,6 +226,11 @@ try {
             {
               test: /\.(png|jpe?g|gif|webp|svg)$/,
               type: "asset",
+              parser: {
+                dataUrlCondition: {
+                  maxSize:  8 * 1024 
+                }
+              },
               generator: {
                 filename: "[name][ext][query]",
               },
@@ -238,7 +243,7 @@ try {
               },
             },
           ],
-        },
+        },  
         mode: "production",
         optimization: {
           minimize: true,
@@ -251,23 +256,9 @@ try {
               },
             }),
           ],
-          splitChunks: {
-            chunks: "all",
-            minSize: 20000,
-            minRemainingSize: 0,
-            minChunks: 1,
-            maxAsyncRequests: 30,
-            maxInitialRequests: 30,
-            enforceSizeThreshold: 50000,
-            cacheGroups: {
-              libs: {
-                filename: "[name].[chunkhash:6].js",
-                test: /[\\/]node_modules[\\/]/,
-                priority: -10,
-                // reuseExistingChunk: true,
-              },
-            },
-          },
+          // 因为组件打包的格式为commonjs, 拆分的chunks不能通过script加载
+          // 只允许通过 import 动态引入实现 split chunk
+          // splitChunks: {},
         },
         externals: {
           react: "commonjs2 react",
@@ -277,17 +268,12 @@ try {
           WebView: "commonjs2 WebView",
         },
       });
+
       await new Promise((resolve, reject) => {
         const compiler = webpack(webpackConfig);
         compiler.run(resolve);
       });
     }
-    // await Promise.all(
-    //   componentNeedToSync.map(
-    //     (component) =>
-
-    //   )
-    // );
 
     spinner.succeed(chalk.hex("#e4e4e4")("Compiler succeed!"));
 

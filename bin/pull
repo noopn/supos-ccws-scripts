@@ -20,7 +20,8 @@ const cwd = process.cwd();
 const {
     CONFIG_FILE_NAME,
     CONFIG_TEMPLATE_PATH,
-    INFO_CACHE_PATH
+    INFO_CACHE_PATH,
+    IGNORE_FILE_PATH
 } = config;
 
 try {
@@ -28,6 +29,7 @@ try {
         // check  ccws.config
 
         const configFilePath = path.join(cwd, `./${CONFIG_FILE_NAME}`);
+        const ignoreFilepath = path.join(cwd, path.basename(IGNORE_FILE_PATH));
 
         try {
             await promisify(fse.exists)(configFilePath)
@@ -37,6 +39,10 @@ try {
             await pipeline(
                 fse.createReadStream(CONFIG_TEMPLATE_PATH),
                 fse.createWriteStream(configFilePath)
+            )
+            await pipeline(
+                fse.createReadStream(IGNORE_FILE_PATH),
+                fse.createWriteStream(ignoreFilepath)
             )
             console.log(
                 chalk.hex('#FFCD3A')(`Config file don't exist, has been automatically created for you.

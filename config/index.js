@@ -9,8 +9,9 @@ const PUBLIC_PATH = path.resolve(__dirname, "../public");
 const CONFIG_FILE_NAME = "ccws.config.json";
 
 const CONFIG_TEMPLATE_PATH = path.resolve(__dirname, "./ccws.template.json");
+const IGNORE_FILE_PATH = path.resolve(__dirname, "./.gitignore");
 
-const BASE_CACHE_PATH = path.resolve(__dirname, "../.cache");
+const BASE_CACHE_PATH = path.resolve(process.cwd(), ".cache");
 
 const SERVER_ENTRY_PATH = path.join(BASE_CACHE_PATH, "index.js");
 
@@ -46,6 +47,7 @@ module.exports = {
   DEV_SERVER_PORT,
   SERVER_ENTRY_PATH,
   CONFIG_FILE_NAME,
+  IGNORE_FILE_PATH,
   CONFIG_TEMPLATE_PATH,
   LOGIN_API,
   LOGOUT_API,

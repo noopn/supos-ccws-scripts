@@ -75,7 +75,7 @@ module.exports = {
             },
           },
         ],
-        exclude: /node_modules\/(?!supos-ccws-scripts)/,
+        exclude: /node_modules(\/|\\)(?!supos-ccws-scripts)/,
       },
     ],
   },

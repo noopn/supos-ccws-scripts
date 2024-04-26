@@ -11,7 +11,7 @@ const CONFIG_FILE_NAME = "ccws.config.json";
 const CONFIG_TEMPLATE_PATH = path.resolve(__dirname, "./ccws.template.json");
 const IGNORE_FILE_PATH = path.resolve(__dirname, "./.gitignore");
 
-const BASE_CACHE_PATH = path.resolve(process.cwd(), ".cache");
+const BASE_CACHE_PATH = path.resolve(__dirname, "../.cache");
 
 const SERVER_ENTRY_PATH = path.join(BASE_CACHE_PATH, "index.js");
 

@@ -2,15 +2,11 @@ const path = require("node:path");
 const fse = require("fs-extra");
 const readline = require("readline");
 const glob = require("glob");
-const webpack = require("webpack");
 
 const configPath = path.resolve(process.cwd(), "ccws.config.json");
 const basePath = path.join(process.cwd(), "./src");
 
-const uid = () =>
-  Math.random()
-    .toString(36)
-    .substring(2, 10);
+const uid = () => Math.random().toString(36).substring(2, 10);
 
 const path2UnixPath = (p) => {
   return p.split(path.sep).join("/");
@@ -105,12 +101,11 @@ const checkAppPath = (appPathMap) => {
   return arr;
 };
 
-const analysisWorkFolder = async (isGuest) => {
-  
+const analysisWorkFolder = async (isNoTrack) => {
   const appPaths = glob.sync(path.join(basePath, "*"));
 
   let lockFolderMap = {};
-  if (!isGuest) {
+  if (!isNoTrack) {
     ({ lockFolderMap } = await analysisLockData());
   }
 
@@ -130,10 +125,12 @@ const analysisWorkFolder = async (isGuest) => {
       );
 
       let options = {};
-      if (!isGuest) {
+      if (!isNoTrack) {
         const configs = require(configPath);
 
-        const component = lockFolderMap[componentPath];
+        const component =
+          lockFolderMap[componentPath] ||
+          lockFolderMap[componentEntryPath + "/"];
 
         if (
           !component ||

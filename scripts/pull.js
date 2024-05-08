@@ -139,6 +139,7 @@ async function pull(options) {
     username: options.username,
     password: options.password,
     forceLogin: options.forceLogin === true ? true : false,
+    spinner
   });
 
   spinner.succeed("Establish connection succeed!");
@@ -207,23 +208,14 @@ async function pull(options) {
     });
 
   const lockFilePath = path.resolve(__dirname, "../.cache/ccws.lock");
-  fse.removeSync(lockFilePath);
+  if (fse.pathExistsSync(lockFilePath)) fse.removeSync(lockFilePath);
+  fse.ensureFileSync(lockFilePath);
 
   const loopAnalysisComponent = async (app, folderList) => {
     if (!folderList || !folderList.length) return;
 
     return Promise.all(
       folderList.map(async (folder) => {
-        // let endWithSlash = false;
-        // if (folder.fullPath.endsWith("/")) {
-        //   folder.fullPath = folder.fullPath.slice(0, -1);
-        //   endWithSlash = true;
-        // }
-        // if (folder.path.endsWith("/")) {
-        //   folder.path = folder.path.slice(0, -1);
-        //   endWithSlash = true;
-        // }
-
         const { folderName, fullPath, hasSub, path: folderPath } = folder;
 
         const localAppPath = path.resolve(process.cwd(), "src", app.name);
@@ -277,16 +269,6 @@ async function pull(options) {
         if (fileInfoList && fileInfoList.length) {
           await Promise.all(
             fileInfoList.map(async (file) => {
-              // let endWithSlash = false;
-              // if (file.fullPath.endsWith("/")) {
-              //   file.fullPath = file.fullPath.slice(0, -1);
-              //   endWithSlash = true;
-              // }
-              // if (file.path.endsWith("/")) {
-              //   file.path = file.path.slice(0, -1);
-              //   endWithSlash = true;
-              // }
-
               spinner.start(
                 chalk.hex("#e4e4e4")(
                   `File: ${file.path} ${chalk.hex("#FFCD3A")(file.size)}`

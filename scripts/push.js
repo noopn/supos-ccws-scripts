@@ -66,6 +66,7 @@ async function push() {
     username: options.username,
     password: options.password,
     forceLogin: options.forceLogin === true ? true : false,
+    spinner
   });
   spinner.succeed("Establish connection succeed!");
 

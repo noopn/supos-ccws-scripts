@@ -4,15 +4,17 @@ const path = require("path");
 function getPackageRoot(packageName) {
   try {
     const modulePath = require.resolve(packageName);
-    let currentDir = path.dirname(modulePath);
-    while (currentDir !== "/") {
+
+    let dir = path.dirname(modulePath);
+    while (path.basename(dir)) {
+      const packageJson = path.join(dir, "package.json");
       if (
-        fse.pathExistsSync(path.join(currentDir, "package.json")) &&
-        require(path.join(currentDir, "package.json")).main
+        fse.pathExistsSync(packageJson) &&
+        (require(packageJson).main || require(packageJson).name)
       ) {
-        return currentDir;
+        return dir;
       }
-      currentDir = path.dirname(currentDir);
+      dir = path.dirname(dir);
     }
   } catch {
     return null;
@@ -38,13 +40,9 @@ class WebpackDependencyPlugin {
       return;
 
     if (
-      [
-        /^react$/,
-        /^react-dom$/,
-        /^lodash(?:\/*)/,
-        /^antd$/,
-        /^moment$/,
-      ].some((reg) => reg.test(source))
+      [/^react$/, /^react-dom$/, /^lodash(?:\/*)/, /^antd$/, /^moment$/].some(
+        (reg) => reg.test(source)
+      )
     )
       return;
 
@@ -64,7 +62,6 @@ class WebpackDependencyPlugin {
     }
   }
   apply(compiler) {
-    console.log(compiler.options);
     const { path: outputPath } = compiler.options.output;
 
     compiler.hooks.normalModuleFactory.tap(

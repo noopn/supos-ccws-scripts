@@ -108,7 +108,7 @@ module.exports = (mode) => ({
     extensions: [".tsx", ".jsx", ".ts", ".js"],
   },
   // resolveLoader: {
-  //   modules: [path.resolve(process.cwd(), "./node_modules")],
+  //   modules:  [path.resolve(process.cwd(), "./node_modules")],
   // },
   plugins: [],
 });

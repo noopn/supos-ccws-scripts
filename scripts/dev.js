@@ -20,7 +20,6 @@ const chokidar = require("chokidar");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 const { analysisWorkFolder, getDefinedConfig } = require("../utils/common");
-const WebpackDependencyPlugin = require("../utils/webpackDependencyPlugin");
 const baseConfig = require("../config/webpack.config");
 const configPath = path.resolve(process.cwd(), "ccws.config.json");
 
@@ -44,7 +43,7 @@ const appsPath = glob.sync(path.resolve(basePath, "*"));
 
 const publicPath = path.resolve(__dirname, "../public");
 
-const isGuest = fse.pathExistsSync(
+const isGuest = !fse.pathExistsSync(
   path.resolve(__dirname, "../.cache/ccws.lock")
 );
 
@@ -65,36 +64,25 @@ if (!fse.pathExistsSync(configPath)) {
 
 const diffDeps = compareDependencies();
 
-// if (diffDeps.length) {
-//   console.log();
-
-//   spinner.fail(
-//     "Please don't install the following packages, because these packages is supOS dependencies, \n  This may cause unexpected errors, you need to restore these dependencies to the following specified versions, \n  and Use strictly in accordance with the specified version of the documentation"
-//   );
-//   console.log();
-//   diffDeps.forEach(([depName, localVer, depVer]) =>
-//     console.log(
-//       `  ${depName}@${localVer} shouldn't install, ${depName}@${depVer} have been installed by CLI.`
-//     )
-//   );
-//   console.log();
-//   process.exit(0);
-// }
-
-// if (!appsPath.length) {
-//   spinner.fail("You don't have any App");
-//   process.exit(0);
-// }
-
-const lockFilePath = path.resolve(__dirname, "../.cache/ccws.lock");
-
-const hasLockFile = fse.pathExistsSync(lockFilePath);
-
-if (!hasLockFile) {
+if (diffDeps.length) {
   console.log();
-  spinner.fail("No lock file detected, please run 'npm run sup:pull' first");
+
+  spinner.fail(
+    "Please don't install the following packages, because these packages is supOS dependencies, \n  This may cause unexpected errors, you need to restore these dependencies to the following specified versions, \n  and Use strictly in accordance with the specified version of the documentation"
+  );
   console.log();
-  process.exit(1);
+  diffDeps.forEach(([depName, localVer, depVer]) =>
+    console.log(
+      `  ${depName}@${localVer} shouldn't install, ${depName}@${depVer} have been installed by CLI.`
+    )
+  );
+  console.log();
+  process.exit(0);
+}
+
+if (!appsPath.length) {
+  spinner.fail("You don't have any App");
+  process.exit(0);
 }
 
 let port = 9348;
@@ -136,10 +124,11 @@ io.on("connection", (socket) => {
   let timer = 0;
   socket.on("message", (id) => {
     devWsId = id;
+
     clearInterval(timer);
   });
   socket.on("disconnect", () => {
-    timer = setInterval(async () => {
+    timer = setTimeout(async () => {
       if (serversMap.has(devWsId)) {
         const instance = serversMap.get(devWsId);
         const { port } = instance.server.address();
@@ -280,11 +269,10 @@ async function start(componentInfo) {
     compress: true,
     hot: true,
     open: true,
+    setupMiddlewares: genMiddlewares(componentInfo),
   };
 
-  console.log(serverConfig);
   if (!isGuest) {
-    serverConfig.setupMiddlewares = genMiddlewares(componentInfo);
     serverConfig.proxy = {
       "/": {
         target: componentInfo.origin,
@@ -319,24 +307,28 @@ function genMiddlewares(componentInfo) {
             req.url === "/" &&
             /<script type="suposInfo"><\/script>/.test(content)
           ) {
-            const logMsg = await initService(componentInfo);
-            const personInfo = await fetchPersonInfo();
-
-            content = content.replace(
-              /<script type="suposInfo"><\/script>/,
-              `<script>
+            let replaceContent = "<script>";
+            if (!isGuest) {
+              const logMsg = await initService({ ...componentInfo, spinner });
+              const personInfo = await fetchPersonInfo();
+              replaceContent += `
               window.localStorage.setItem('loginMsg','${JSON.stringify(
                 logMsg
               )}')
               window.localStorage.setItem('ticket','${logMsg.ticket}');
               window.localStorage.setItem('personInfo','${JSON.stringify(
                 personInfo.userInfo
-              )}');
-              window.localStorage.setItem('__koa_server_port__','${port}');
-              window.localStorage.setItem('__dev_ws_id__','${
-                componentInfo.id
-              }');
-            </script>`
+              )}')`;
+            }
+
+            replaceContent += `
+            window.localStorage.setItem('__koa_server_port__','${port}');
+            window.localStorage.setItem('__dev_ws_id__','${componentInfo.id}');`;
+
+            replaceContent += `</script>`;
+            content = content.replace(
+              /<script type="suposInfo"><\/script>/,
+              replaceContent
             );
             send.call(this, Buffer.from(content, "utf-8"));
             spinner.succeed("reload component success");

@@ -14,7 +14,6 @@ const { glob } = require("glob");
 const WebpackDependencyPlugin = require("../utils/webpackDependencyPlugin");
 const baseConfig = require("../config/webpack.config");
 
-
 const ora = require("ora");
 
 const spinner = ora();
@@ -43,21 +42,21 @@ if (!hasLockFile) {
 
 const diffDeps = compareDependencies();
 
-// if (diffDeps.length) {
-//   console.log();
+if (diffDeps.length) {
+  console.log();
 
-//   spinner.fail(
-//     "Please don't install the following packages, because these packages is supOS dependencies, \n  This may cause unexpected errors, you need to restore these dependencies to the following specified versions, \n  and Use strictly in accordance with the specified version of the documentation"
-//   );
-//   console.log();
-//   diffDeps.forEach(([depName, localVer, depVer]) =>
-//     console.log(
-//       `  ${depName}@${localVer} shouldn't install, ${depName}@${depVer} have been installed by CLI.`
-//     )
-//   );
-//   console.log();
-//   process.exit(0);
-// }
+  spinner.fail(
+    "Please don't install the following packages, because these packages is supOS dependencies, \n  This may cause unexpected errors, you need to restore these dependencies to the following specified versions, \n  and Use strictly in accordance with the specified version of the documentation"
+  );
+  console.log();
+  diffDeps.forEach(([depName, localVer, depVer]) =>
+    console.log(
+      `  ${depName}@${localVer} shouldn't install, ${depName}@${depVer} have been installed by CLI.`
+    )
+  );
+  console.log();
+  process.exit(0);
+}
 
 const basePath = path.resolve(process.cwd(), "src");
 
@@ -183,7 +182,7 @@ async function build() {
   const choices = await inquirer.prompt([
     {
       type: "checkbox",
-      message: "Select the components you want to push.",
+      message: "Select the components you want to build.",
       name: "components",
       choices: inquirerData
         .map((app) => [
@@ -277,13 +276,6 @@ async function build() {
         );
         if (stats.hasErrors()) {
           spinner.stop();
-
-          console.log(
-            stats.toString({
-              chunks: false, // 使构建过程更静默无输出
-              colors: true, // 在控制台展示颜色
-            })
-          );
 
           process.exit(1);
         }

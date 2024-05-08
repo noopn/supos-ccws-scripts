@@ -106,6 +106,7 @@ const checkAppPath = (appPathMap) => {
 };
 
 const analysisWorkFolder = async (isGuest) => {
+  
   const appPaths = glob.sync(path.join(basePath, "*"));
 
   let lockFolderMap = {};

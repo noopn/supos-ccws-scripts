@@ -2,7 +2,6 @@ const path = require("node:path");
 const fs = require("node:fs");
 
 const got = require("got");
-const chalk = require("chalk");
 const FormData = require("form-data");
 
 let instance = got;
@@ -12,6 +11,8 @@ let options;
 let spinner;
 
 const initService = async (serviceOptions) => {
+  spinner = serviceOptions.spinner;
+
   const defaultGotOptions = {
     prefixUrl: serviceOptions.origin.endsWith("/")
       ? serviceOptions.origin

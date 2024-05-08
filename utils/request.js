@@ -3,14 +3,9 @@ const url = require("url");
 const chalk = require("chalk");
 const FormData = require("form-data");
 
-const context = require("../src/context");
 
-const request = async (method = "GET", api, body) => {
-  const inquirerOptions = context.get("options");
-
-  const loginMsg = context.get("loginMsg");
-
-  const headers = {};
+const request = async (method = "GET", api, options) => {
+  const { headers, body } = options;
 
   if (loginMsg) {
     Object.assign(headers, {
@@ -49,9 +44,9 @@ const request = async (method = "GET", api, body) => {
 };
 
 request.stream = (path) => {
-  const inquirerOptions = context.get("options");
-  const streamUrl = url.resolve(inquirerOptions.origin, path);
-  return got.stream(streamUrl);
+  // const inquirerOptions = context.get("options");
+  // const streamUrl = url.resolve(inquirerOptions.origin, path);
+  // return got.stream(streamUrl);
 };
 
 module.exports = request;

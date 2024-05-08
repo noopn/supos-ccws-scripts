@@ -58,14 +58,15 @@
             border-radius: 8px;
             cursor: pointer;
         }
+
         .list_warpper {
             margin: 0 30px;
         }
 
         .component_wrapper {
             box-sizing: border-box;
-            margin-bottom:30px;
-            padding-right:30px;
+            margin-bottom: 30px;
+            padding-right: 30px;
         }
 
         @media screen and (max-width: 720px) {
@@ -73,35 +74,37 @@
                 width: 100%;
             }
         }
-        @media screen and (min-width: 720px) and ( max-width: 1280px) {
+
+        @media screen and (min-width: 720px) and (max-width: 1280px) {
             .component_ul .component_wrapper {
                 width: 50%;
             }
         }
-        @media screen and ( min-width: 1280px) and (max-width: 1440px) {
+
+        @media screen and (min-width: 1280px) and (max-width: 1440px) {
             .component_ul .component_wrapper {
                 width: 33.3%;
             }
         }
+
         @media screen and (min-width: 1440px) {
             .component_ul .component_wrapper {
                 width: 25%;
             }
         }
-
     </style>
 </head>
 
 <body>
-    <h1 class="header">{{project}}</h1>
+    <h1 class="header">APP列表</h1>
     <ul class="list_warpper">
-        {{each appList as app}}
+        {{each appList app}}
         <li>
             <img src="/app_icon.png" alt="app_icon" class="app_icon">
             <span class="app_name">{{app.appName}}</span>
         </li>
         <ul class="component_ul">
-            {{each app.componentsList as component}}
+            {{each app.componentsList component}}
             <div class="component_wrapper">
                 <li onclick="handleClick('{{component.id}}')">{{component.componentName}}</li>
             </div>

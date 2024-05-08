@@ -1,10 +1,6 @@
 const path = require("path");
 
-module.exports = {
-  output: {
-    filename: "index.js",
-    publicPath: "/",
-  },
+module.exports = (mode) => ({
   module: {
     rules: [
       {
@@ -55,6 +51,18 @@ module.exports = {
         ],
       },
       {
+        test: /\.(png|jpe?g|gif|webp|svg)$/,
+        type: "asset",
+        parser: {
+          dataUrlCondition: {
+            maxSize: 8 * 1024,
+          },
+        },
+        generator: {
+          filename: "[name][ext][query]",
+        },
+      },
+      {
         test: /\.(js|mjs|jsx|ts|tsx)$/,
         use: [
           {
@@ -65,17 +73,29 @@ module.exports = {
                 [
                   "@babel/preset-env",
                   {
-                    useBuiltIns: "usage",
-                    corejs: "2",
+                    targets: {
+                      chrome: "49",
+                      ios: "10",
+                    },
                   },
                 ],
-                require.resolve("@babel/preset-react"),
-                require.resolve("@babel/preset-typescript"),
+                // [
+                // "@babel/preset-env",
+                // {
+                //   useBuiltIns: "usage",
+                //   corejs: "2",
+                // },
+                // ],
+                "@babel/preset-react",
+                "@babel/preset-typescript",
               ],
+              plugins: [
+                mode === "development" ? "react-refresh/babel" : null,
+              ].filter(Boolean),
             },
           },
         ],
-        exclude: /node_modules(\/|\\)(?!supos-ccws-scripts)/,
+        // exclude: /node_modules(\/|\\)(?!supos-ccws-scripts)/,
       },
     ],
   },
@@ -86,16 +106,9 @@ module.exports = {
   },
   resolve: {
     extensions: [".tsx", ".jsx", ".ts", ".js"],
-    modules: [
-      path.resolve(__dirname, "../node_modules"),
-      path.resolve(process.cwd(), "./node_modules"),
-    ],
   },
-  resolveLoader: {
-    modules: [
-      path.resolve(__dirname, "../node_modules"),
-      path.resolve(process.cwd(), "./node_modules"),
-    ],
-  },
+  // resolveLoader: {
+  //   modules: [path.resolve(process.cwd(), "./node_modules")],
+  // },
   plugins: [],
-};
+});

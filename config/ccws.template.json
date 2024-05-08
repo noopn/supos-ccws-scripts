@@ -1,4 +1,9 @@
-[{
-    "project":"Project name",
-    "origin":"Project url same as location.origin"
-}]
+[
+  {
+    "project": "Project name",
+    "origin": "Project url same as location.origin",
+    "username": "username",
+    "password": "password, some supOS system encrypt password, please check it out in browser developer tools",
+    "forceLogin": false
+  }
+]

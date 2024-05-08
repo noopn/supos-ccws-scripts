@@ -1,13 +1,39 @@
 #!/usr/bin/env node
 
-const program = require('commander');
+const path = require("node:path")
+const spawn = require('cross-spawn');
 
-program
-  .version(require('../package').version)
-  .usage('<command> [options]')
-  .command('pull', 'pull all custom components from project')
-  .command('push', 'push all custom components if changed')
-  .command('dev', 'start dev server');
+const chalk = require('chalk');
+const argv = process.argv;
+
+const nodeArgs = argv.slice(2);
+
+const command = nodeArgs[0]
+
+if(!['dev','push','build','pull'].includes(command)) {
+  console.log();
+
+  console.log(chalk.red("Illegal command"), "Your command must be one of the following");
+  console.log();
+
+  console.log(chalk.cyan('dev  '), "start dev server ")
+  console.log(chalk.cyan('pull '), "pull all components from your selected project")
+  console.log(chalk.cyan('build'), "build selected components but not push to server")
+  console.log(chalk.cyan('push '), "build and push selected components to server")
+  console.log();
+
+  process.exit(1);
+}
 
 
-program.parse(process.argv);
+const result =  spawn.sync(
+  process.execPath,
+  [].concat(path.resolve(__dirname,'../scripts',command)).concat(nodeArgs.slice(1)),
+  {
+    stdio:"inherit"
+  }
+)
+
+process.on('uncaughtException', (err) => {
+  throw err;
+})

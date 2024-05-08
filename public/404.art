@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404</title>
+</head>
+<style>
+    :root {
+        --translateX: 0;
+        --translateY: 0;
+    }
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        text-align: center;
+        margin: 0;
+        height: 100vh;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+    }
+
+    .channel {
+        color: #008000;
+        font-size: 40px;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .fourofour {
+        margin: 0;
+        padding: 0;
+        font-size: 175px;
+        opacity: 0.1;
+        --X: calc(var(--translateX) * -100px);
+        --Y: calc(var(--translateY) * -150px);
+        -webkit-transform: translate(var(--X), var(--Y));
+        transform: translate(var(--X), var(--Y));
+    }
+
+    #canvas {
+        position: absolute;
+        left: 0;
+        height: 0;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <h1 class="fourofour">404</h1>
+    <script>
+        const RAF =
+            window.requestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            window.msRequestAnimationFrame ||
+            function (cb) {
+                setTimeout(cb, 1000 / 60);
+            };
+
+        /**
+          * Initialize a canvas
+        */
+        const HEIGHT = document.documentElement.clientHeight;
+        const WIDTH = document.documentElement.clientWidth;
+        const TOTAL = WIDTH * HEIGHT
+
+        const CANVAS = document.querySelector("#canvas");
+        CANVAS.height = HEIGHT;
+        CANVAS.width = WIDTH;
+        const CONTEXT = CANVAS.getContext("2d");
+
+
+
+        const update = () => {
+            for (let pixel = 0; pixel < 1000; pixel++) {
+                const X = Math.random() * WIDTH;
+                const Y = Math.random() * HEIGHT;
+                const generateColor = () => {
+                    let base = Math.floor(Math.random() * 255).toString(16);
+                    return `#${base}${base}${base}`;
+                };
+                const color = generateColor();
+                CONTEXT.fillStyle = color;
+                CONTEXT.fillRect(X, Y, 2, 2);
+            }
+            RAF(update);
+        }
+
+        update()
+
+        const root = document.documentElement;
+
+    </script>
+</body>
+
+</html>

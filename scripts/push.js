@@ -95,7 +95,11 @@ async function push() {
 
       const [_, appName, ...restPath] = relativeAppPath.split("/");
 
-      if (stat.isDirectory() && !lockFolderMap[fileOrFolderPath]) {
+      if (
+        stat.isDirectory() &&
+        !lockFolderMap[fileOrFolderPath] &&
+        !lockFolderMap[fileOrFolderPath + "/"]
+      ) {
         const folderInfo = {
           id: fileOrFolderPath,
           folderName: path.basename(fileOrFolderPath),

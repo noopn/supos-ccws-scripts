@@ -8,8 +8,6 @@ const ora = require("ora");
 const fse = require("fs-extra");
 const chalk = require("chalk");
 
-const build = require("./build");
-
 const spinner = ora();
 const pipeline = promisify(stream.pipeline);
 
@@ -23,6 +21,17 @@ const {
 
 const { path2UnixPath } = require("../utils/common");
 
+const lockFilePath = path.resolve(__dirname, "../.cache/ccws.lock");
+
+const hasLockFile = fse.pathExistsSync(lockFilePath);
+
+if (!hasLockFile) {
+  console.log();
+  spinner.fail("No lock file detected, please run 'npm run sup:pull' first");
+  console.log();
+  process.exit(0);
+}
+
 push();
 
 async function push() {
@@ -31,9 +40,7 @@ async function push() {
     lockFileAndFolderMap,
     lockFileMap,
     lockFolderMap,
-  } = await build;
-
-  const lockFilePath = path.resolve(__dirname, "../.cache/ccws.lock");
+  } = await require("./build");
 
   const basePath = path2UnixPath(path.resolve(process.cwd(), "src"));
 
@@ -66,7 +73,7 @@ async function push() {
     username: options.username,
     password: options.password,
     forceLogin: options.forceLogin === true ? true : false,
-    spinner
+    spinner,
   });
   spinner.succeed("Establish connection succeed!");
 

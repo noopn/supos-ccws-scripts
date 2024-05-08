@@ -43,7 +43,7 @@ const appsPath = glob.sync(path.resolve(basePath, "*"));
 
 const publicPath = path.resolve(__dirname, "../public");
 
-const isGuest = !fse.pathExistsSync(
+const isNoTrack = !fse.pathExistsSync(
   path.resolve(__dirname, "../.cache/ccws.lock")
 );
 
@@ -173,7 +173,8 @@ watcher.on("add", add);
 
 Promise.resolve()
   .then(
-    async () => ({ appList, componentsMap } = await analysisWorkFolder(isGuest))
+    async () =>
+      ({ appList, componentsMap } = await analysisWorkFolder(isNoTrack))
   )
   .then(() => {
     return new Promise((resolve, reject) => {
@@ -272,7 +273,7 @@ async function start(componentInfo) {
     setupMiddlewares: genMiddlewares(componentInfo),
   };
 
-  if (!isGuest) {
+  if (!isNoTrack) {
     serverConfig.proxy = {
       "/": {
         target: componentInfo.origin,
@@ -308,7 +309,7 @@ function genMiddlewares(componentInfo) {
             /<script type="suposInfo"><\/script>/.test(content)
           ) {
             let replaceContent = "<script>";
-            if (!isGuest) {
+            if (!isNoTrack) {
               const logMsg = await initService({ ...componentInfo, spinner });
               const personInfo = await fetchPersonInfo();
               replaceContent += `

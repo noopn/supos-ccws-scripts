@@ -18,8 +18,6 @@ const ora = require("ora");
 
 const spinner = ora();
 
-const isTrack = !process.argv.includes("--notrack");
-
 const mode = "production";
 
 const {
@@ -28,17 +26,6 @@ const {
   checkAppPath,
   getDefinedConfig,
 } = require("../utils/common");
-
-const lockFilePath = path.resolve(__dirname, "../.cache/ccws.lock");
-
-const hasLockFile = fse.pathExistsSync(lockFilePath);
-
-if (!hasLockFile) {
-  console.log();
-  spinner.fail("No lock file detected, please run 'npm run sup:pull' first");
-  console.log();
-  process.exit(0);
-}
 
 const diffDeps = compareDependencies();
 
@@ -60,6 +47,10 @@ if (diffDeps.length) {
 
 const basePath = path.resolve(process.cwd(), "src");
 
+const isNoTrack =
+  process.argv.includes("--notrack") ||
+  !fse.pathExistsSync(path.resolve(__dirname, "../.cache/ccws.lock"));
+
 module.exports = build();
 
 async function build() {
@@ -69,7 +60,7 @@ async function build() {
   let lockAppMap = {};
   let lockComponentMap = {};
 
-  isTrack &&
+  if (!isNoTrack) {
     ({
       lockFileAndFolderMap,
       lockFileMap,
@@ -77,8 +68,6 @@ async function build() {
       lockAppMap,
       lockComponentMap,
     } = await analysisLockData());
-
-  if (isTrack) {
     const invalidPath = checkAppPath(lockAppMap);
     if (invalidPath.length) {
       console.log();
@@ -102,67 +91,87 @@ async function build() {
   const inquirerData = appPaths
     .map((appPath) => {
       const componentPaths = glob.sync(path.join(appPath, "./*"));
-      const { appId, origin } = lockAppMap[appPath];
-      const components = componentPaths.map((componentPath) => {
-        const componentTempData = {
-          appId,
-          origin,
-          componentName: String(componentPath.split("/").slice(-1)),
-          componentOutputPath: `${componentPath}/compiled`,
-          id: componentPath,
-        };
-        Object.assign(componentTempData, {
-          status: lockComponentMap[componentPath] ? "normal" : "new",
-        });
-        const fileAndFolderPaths = glob.sync(
-          path.join(componentPath, "./**/**")
-        );
 
-        fileAndFolderPaths.map((fileOrFolderPath) => {
-          const stat = fse.statSync(fileOrFolderPath);
-          if (stat.isDirectory() && !lockFolderMap[fileOrFolderPath]) {
-            Object.assign(componentTempData, {
-              status: componentTempData.status == "new" ? "new" : "update",
-            });
-          } else if (stat.isFile()) {
-            const content = fse.readFileSync(fileOrFolderPath);
-            const hash = crypto
-              .createHash("sha256")
-              .update(content)
-              .setEncoding("hex")
-              .digest("hex");
+      let components = [];
+      if (!isNoTrack) {
+        const { appId, origin } = lockAppMap[appPath];
 
-            if (
-              !lockFileMap[fileOrFolderPath] ||
-              lockFileMap[fileOrFolderPath].hash !== hash
-            ) {
+        components = componentPaths.map((componentPath) => {
+          const componentTempData = {
+            appId,
+            origin,
+            componentName: String(componentPath.split("/").slice(-1)),
+            componentOutputPath: `${componentPath}/compiled`,
+            id: componentPath,
+          };
+          Object.assign(componentTempData, {
+            status: lockComponentMap[componentPath] ? "normal" : "new",
+          });
+          const fileAndFolderPaths = glob.sync(
+            path.join(componentPath, "./**/**")
+          );
+
+          fileAndFolderPaths.map((fileOrFolderPath) => {
+            const stat = fse.statSync(fileOrFolderPath);
+            if (stat.isDirectory() && !lockFolderMap[fileOrFolderPath]) {
               Object.assign(componentTempData, {
                 status: componentTempData.status == "new" ? "new" : "update",
               });
-            }
+            } else if (stat.isFile()) {
+              const content = fse.readFileSync(fileOrFolderPath);
+              const hash = crypto
+                .createHash("sha256")
+                .update(content)
+                .setEncoding("hex")
+                .digest("hex");
 
-            // const regPath = `${componentPath}/source/index`.replace(
-            //     /(\(|\))/gi,
-            //     (m) => `\\${m}`
-            //   );
+              if (
+                !lockFileMap[fileOrFolderPath] ||
+                lockFileMap[fileOrFolderPath].hash !== hash
+              ) {
+                Object.assign(componentTempData, {
+                  status: componentTempData.status == "new" ? "new" : "update",
+                });
+              }
 
-            //   if (new RegExp(regPath).test(fileOrFolderPath)) {
-            //     Object.assign(componentTempData, {
-            //       componentEntryPath: fileOrFolderPath,
-            //     });
-            //   }
-            // 路径中不能有特殊字符
-            if (
-              new RegExp(`${componentPath}/source/index`).test(fileOrFolderPath)
-            ) {
-              Object.assign(componentTempData, {
-                componentEntryPath: fileOrFolderPath,
-              });
+              // const regPath = `${componentPath}/source/index`.replace(
+              //     /(\(|\))/gi,
+              //     (m) => `\\${m}`
+              //   );
+
+              //   if (new RegExp(regPath).test(fileOrFolderPath)) {
+              //     Object.assign(componentTempData, {
+              //       componentEntryPath: fileOrFolderPath,
+              //     });
+              //   }
+              // 路径中不能有特殊字符
+              if (
+                new RegExp(`${componentPath}/source/index`).test(
+                  fileOrFolderPath
+                )
+              ) {
+                Object.assign(componentTempData, {
+                  componentEntryPath: fileOrFolderPath,
+                });
+              }
             }
-          }
+          });
+          return componentTempData;
         });
-        return componentTempData;
-      });
+      } else {
+        components = componentPaths.map((componentPath) => {
+          const componentTempData = {
+            appId: path.basename(appPath),
+            componentName: path.basename(componentPath),
+            componentEntryPath: path.resolve(componentPath, "source"),
+            componentOutputPath: path.resolve(componentPath, "compiled"),
+            id: componentPath,
+          };
+
+          return componentTempData;
+        });
+      }
+
       return {
         appName: String(appPath.split("/").slice(-1)),
         components: components.filter(

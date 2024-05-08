@@ -26,9 +26,7 @@ const { path2UnixPath } = require("../utils/common");
 
 const hasYarnCommand = spawn.sync("yarn", ["--version"]).stdout.toString();
 
-const isNoTrack =
-  process.argv.includes("--notrack") ||
-  !fse.pathExistsSync(path.resolve(__dirname, "../.cache/ccws.lock"));
+const isNoTrack = process.argv.includes("--notrack");
 
 const isInstallDependencies = !process.argv.includes("--ignore-dependencies");
 

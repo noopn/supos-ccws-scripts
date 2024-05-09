@@ -115,29 +115,24 @@ app.use(koaStatic(publicPath, { index: null }));
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-app.on("error", function(err) {
+app.on("error", function (err) {
   console.log(err.stack);
 });
 
 io.on("connection", (socket) => {
   let devWsId;
-  let timer = 0;
   socket.on("message", (id) => {
     devWsId = id;
-
-    clearInterval(timer);
+    serversMap.has(id) && clearTimeout(serversMap.get(id).__timer);
   });
   socket.on("disconnect", () => {
-    timer = setTimeout(async () => {
-      if (serversMap.has(devWsId)) {
-        const instance = serversMap.get(devWsId);
-        const { port } = instance.server.address();
-        await instance.stop();
-        serversMap.delete(devWsId);
-        spinner.info(
-          `webpack dev server on port ${port}, has already stopped. `
-        );
-      }
+    if (!serversMap.has(devWsId)) return;
+    serversMap.get(devWsId).__timer = setTimeout(async () => {
+      const instance = serversMap.get(devWsId);
+      const { port } = instance.server.address();
+      await instance.stop();
+      serversMap.delete(devWsId);
+      spinner.info(`webpack dev server on port ${port}, has already stopped. `);
     }, 1000 * 20);
   });
 });
@@ -279,7 +274,7 @@ async function start(componentInfo) {
         target: componentInfo.origin,
         secure: false,
         changeOrigin: true,
-        bypass: function(req) {
+        bypass: function (req) {
           if (req.url.startsWith("/_dev_assets_")) {
             return req.url;
           }
@@ -299,7 +294,7 @@ function genMiddlewares(componentInfo) {
       name: "inject user info",
       middleware: (req, res, next) => {
         const send = res.send;
-        res.send = async function(body) {
+        res.send = async function (body) {
           let content = body;
           if (Buffer.isBuffer(content)) {
             content = content.toString();

@@ -9,3 +9,7 @@ fix: dev 运行是检测 lockfile,可编程组件 4.2 以上版本路径是 / �
 # 1.4.7
 
 fix: push 修复新建或修改文件 是否以 / 结尾， （受版本影响， 不确定修改具体版本）
+
+# 1.4.8
+
+fix: webpack dev server socket 断开链接，意外退出

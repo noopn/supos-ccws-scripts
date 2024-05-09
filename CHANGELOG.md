@@ -13,3 +13,9 @@ fix: push 修复新建或修改文件 是否以 / 结尾， （受版本影响�
 # 1.4.8
 
 fix: webpack dev server socket 断开链接，意外退出
+
+# 1.4.9
+
+fix: 路径问题导致 build push， isTrack 模式下无法精确跟踪文件
+
+

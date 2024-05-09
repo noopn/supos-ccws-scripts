@@ -113,7 +113,11 @@ async function build() {
 
           fileAndFolderPaths.map((fileOrFolderPath) => {
             const stat = fse.statSync(fileOrFolderPath);
-            if (stat.isDirectory() && !lockFolderMap[fileOrFolderPath]) {
+            if (
+              stat.isDirectory() &&
+              !lockFolderMap[fileOrFolderPath] &&
+              !lockFolderMap[fileOrFolderPath + "/"]
+            ) {
               Object.assign(componentTempData, {
                 status: componentTempData.status == "new" ? "new" : "update",
               });

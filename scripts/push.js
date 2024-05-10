@@ -21,7 +21,7 @@ const {
 
 const { path2UnixPath } = require("../utils/common");
 
-const lockFilePath = path.resolve(process, "./.cache/ccws.lock");
+const lockFilePath = path.resolve(process.cwd(), "./.cache/ccws.lock");
 
 const hasLockFile = fse.pathExistsSync(lockFilePath);
 

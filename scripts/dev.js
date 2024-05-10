@@ -44,7 +44,7 @@ const appsPath = glob.sync(path.resolve(basePath, "*"));
 const publicPath = path.resolve(__dirname, "../public");
 
 const isNoTrack = !fse.pathExistsSync(
-  path.resolve(__dirname, "./.cache/ccws.lock")
+  path.resolve(process.cwd(), "./.cache/ccws.lock")
 );
 
 render(app, {

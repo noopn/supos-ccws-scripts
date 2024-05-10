@@ -18,6 +18,6 @@ fix: webpack dev server socket 断开链接，意外退出
 
 fix: 路径问题导致 build push， isTrack 模式下无法精确跟踪文件
 
-# 1.4.10
+# 1.4.11
 
 fix: 缓存文件路径修改为项目目录

@@ -208,7 +208,7 @@ async function pull(options) {
       fse.ensureDirSync(workDir);
     });
 
-  const lockFilePath = path.resolve(__dirname, "../.cache/ccws.lock");
+  const lockFilePath = path.resolve(process.cwd(), "./.cache/ccws.lock");
   if (fse.pathExistsSync(lockFilePath)) fse.removeSync(lockFilePath);
   fse.ensureFileSync(lockFilePath);
 

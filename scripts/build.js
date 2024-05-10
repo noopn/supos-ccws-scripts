@@ -49,7 +49,7 @@ const basePath = path.resolve(process.cwd(), "src");
 
 const isNoTrack =
   process.argv.includes("--notrack") ||
-  !fse.pathExistsSync(path.resolve(__dirname, "../.cache/ccws.lock"));
+  !fse.pathExistsSync(path.resolve(process.cwd(), "./.cache/ccws.lock"));
 
 module.exports = build();
 

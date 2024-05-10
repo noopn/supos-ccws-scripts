@@ -45,7 +45,7 @@ const analysisLockData = async () => {
   const lockAppMap = {};
   const lockComponentMap = {};
   const lockFileStream = fse.createReadStream(
-    path.resolve(__dirname, "../.cache/ccws.lock")
+    path.resolve(process, "./.cache/ccws.lock")
   );
 
   let temp = {};

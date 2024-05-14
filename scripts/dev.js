@@ -115,7 +115,7 @@ app.use(koaStatic(publicPath, { index: null }));
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-app.on("error", function (err) {
+app.on("error", function(err) {
   console.log(err.stack);
 });
 
@@ -274,7 +274,7 @@ async function start(componentInfo) {
         target: componentInfo.origin,
         secure: false,
         changeOrigin: true,
-        bypass: function (req) {
+        bypass: function(req) {
           if (req.url.startsWith("/_dev_assets_")) {
             return req.url;
           }
@@ -294,7 +294,7 @@ function genMiddlewares(componentInfo) {
       name: "inject user info",
       middleware: (req, res, next) => {
         const send = res.send;
-        res.send = async function (body) {
+        res.send = async function(body) {
           let content = body;
           if (Buffer.isBuffer(content)) {
             content = content.toString();

@@ -10,6 +10,23 @@
   </title>
   <script type="suposInfo"></script>
   <script src="/_dev_assets_/socket.io-3.0.5.min.js"></script>
+  <script>
+    const port = localStorage.getItem("__koa_server_port__") || "9348";
+    const wsId = localStorage.getItem("__dev_ws_id__");
+    const socket = io(`ws://127.0.0.1:${port}`);
+
+    socket.on("connect", () => {
+      console.log("Connect ccws socket server success!");
+      socket.emit("message", wsId);
+    });
+
+  </script>
+  <style>
+    #root {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
 </head>
 
 <body>

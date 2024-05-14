@@ -3,7 +3,9 @@ const path = require("path");
 
 function getPackageRoot(packageName) {
   try {
-    const modulePath = require.resolve(packageName);
+    const modulePath = require.resolve(packageName, {
+      paths: [process.cwd()],
+    });
 
     let dir = path.dirname(modulePath);
     while (path.basename(dir)) {
@@ -40,9 +42,13 @@ class WebpackDependencyPlugin {
       return;
 
     if (
-      [/^react$/, /^react-dom$/, /^lodash(?:\/*)/, /^antd$/, /^moment$/].some(
-        (reg) => reg.test(source)
-      )
+      [
+        /^react$/,
+        /^react-dom$/,
+        /^lodash(?:\/*)/,
+        /^antd$/,
+        /^moment$/,
+      ].some((reg) => reg.test(source))
     )
       return;
 

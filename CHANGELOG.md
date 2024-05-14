@@ -21,3 +21,11 @@ fix: 路径问题导致 build push， isTrack 模式下无法精确跟踪文件
 # 1.4.11
 
 fix: 缓存文件路径修改为项目目录
+
+
+# 1.4.12
+
+fix: 修复了 resolve.modules 路径范围
+chore: 修改 dev 资源注入方式
+chore: 添加页面全局的默认样式，组件打包时不引入
+chore: 通过 link 引入的包，更改依赖查找路径

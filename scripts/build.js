@@ -239,9 +239,10 @@ async function build() {
     if (defineConfig) {
       plugins.push(new webpack.DefinePlugin(defineConfig));
     }
+
     spinner.start(chalk.hex("#e4e4e4")(`Run build compiler.`));
 
-    const webpackConfig = merge(baseConfig(mode), {
+    let webpackConfig = merge(baseConfig(mode), {
       entry: component.componentEntryPath,
       output: {
         filename: "index.js",
@@ -275,6 +276,18 @@ async function build() {
       },
       plugins,
     });
+
+    let webpackOverwrite;
+    try {
+      webpackOverwrite = require(path.join(
+        component.id,
+        "webpack.overwrite.js"
+      ));
+    } catch {}
+
+    if (webpackOverwrite && typeof webpackOverwrite === "function") {
+      webpackConfig = webpackOverwrite(webpackConfig) || webpackConfig;
+    }
 
     await new Promise((resolve, reject) => {
       const compiler = webpack(webpackConfig);

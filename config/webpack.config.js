@@ -36,7 +36,9 @@ module.exports = (mode) => ({
             use: [
               "style-loader",
               //   require.resolve("vue-style-loader"),
-              "css-loader",
+              {
+                loader: "css-loader",
+              },
               {
                 loader: "postcss-loader",
                 options: {

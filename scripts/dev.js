@@ -234,9 +234,10 @@ async function start(componentInfo) {
       filename: "index.html",
       title: componentName,
     }),
+
     new webpack.ProvidePlugin({
       _: "lodash",
-      scriptUtil: path.resolve(__dirname, "./scriptUtil.js"),
+      scriptUtil: path.resolve(__dirname, "../config/scriptUtil.js"),
     }),
     new webpack.DefinePlugin({
       COMPONENT_ENTRY: `"${componentInfo.componentEntryPath}"`,
@@ -248,12 +249,24 @@ async function start(componentInfo) {
   if (defineConfig) {
     plugins.push(new webpack.DefinePlugin(defineConfig));
   }
-  const webpackConfig = merge(baseConfig(mode), {
+  let webpackConfig = merge(baseConfig(mode), {
     entry: path.resolve(__dirname, "../config/runtimeIndex.jsx"),
     devtool: "eval-source-map",
     mode: "development",
     plugins,
   });
+
+  let webpackOverwrite;
+  try {
+    webpackOverwrite = require(path.join(
+      componentPath,
+      "webpack.overwrite.js"
+    ));
+  } catch {}
+
+  if (webpackOverwrite && typeof webpackOverwrite === "function") {
+    webpackConfig = webpackOverwrite(webpackConfig) || webpackConfig;
+  }
 
   const compiler = webpack(webpackConfig);
 
@@ -282,6 +295,7 @@ async function start(componentInfo) {
       },
     };
   }
+
   const server = new WebpackDevServer(serverConfig, compiler);
 
   await server.start();

@@ -47,6 +47,7 @@ const isNoTrack = !fse.pathExistsSync(
   path.resolve(process.cwd(), "./.cache/ccws.lock")
 );
 
+
 render(app, {
   root: publicPath,
   extname: ".art",

@@ -6,7 +6,10 @@ const glob = require("glob");
 const configPath = path.resolve(process.cwd(), "ccws.config.json");
 const basePath = path.join(process.cwd(), "./src");
 
-const uid = () => Math.random().toString(36).substring(2, 10);
+const uid = () =>
+  Math.random()
+    .toString(36)
+    .substring(2, 10);
 
 const path2UnixPath = (p) => {
   return p.split(path.sep).join("/");
@@ -129,8 +132,7 @@ const analysisWorkFolder = async (isNoTrack) => {
         const configs = require(configPath);
 
         const component =
-          lockFolderMap[componentPath] ||
-          lockFolderMap[componentEntryPath + "/"];
+          lockFolderMap[componentPath] || lockFolderMap[componentPath + "/"];
 
         if (
           !component ||

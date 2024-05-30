@@ -6,6 +6,7 @@ const inquirer = require("inquirer");
 
 const fse = require("fs-extra");
 const webpack = require("webpack");
+// const { InjectManifest } = require("workbox-webpack-plugin");
 
 const TerserPlugin = require("terser-webpack-plugin");
 const { merge } = require("webpack-merge");
@@ -233,7 +234,14 @@ async function build() {
   for (let component of componentNeedToSync) {
     spinner.stop();
 
-    const plugins = [new WebpackDependencyPlugin()];
+    const plugins = [
+      new WebpackDependencyPlugin(),
+      // new InjectManifest({
+      //   swSrc: path.resolve(__dirname, "../config/service-worker.js"),
+      //   swDest: "service-worker.js",
+      //   maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
+      // }),
+    ];
     const defineConfig = await getDefinedConfig(component.id);
 
     if (defineConfig) {

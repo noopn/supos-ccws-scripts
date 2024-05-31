@@ -139,24 +139,18 @@ async function build() {
                 });
               }
 
-              // const regPath = `${componentPath}/source/index`.replace(
-              //     /(\(|\))/gi,
-              //     (m) => `\\${m}`
-              //   );
-
-              //   if (new RegExp(regPath).test(fileOrFolderPath)) {
-              //     Object.assign(componentTempData, {
-              //       componentEntryPath: fileOrFolderPath,
-              //     });
-              //   }
-              // 路径中不能有特殊字符
+              const {resolve:{extensions}}=  baseConfig(mode);
+              let match;
               if (
-                new RegExp(`${componentPath}/source/index`).test(
-                  fileOrFolderPath
-                )
+                match = fileOrFolderPath.match( new RegExp(`/source/index(${extensions.join("|")})`))
               ) {
+
+                const entryLevel = extensions.indexOf(match[1]);
+                if(componentTempData.entryLevel != undefined && componentTempData.entryLevel<= entryLevel) return;
+
                 Object.assign(componentTempData, {
                   componentEntryPath: fileOrFolderPath,
+                  entryLevel
                 });
               }
             }
@@ -185,6 +179,7 @@ async function build() {
       };
     })
     .filter((app) => app.components.length);
+
 
   if (!inquirerData.length) {
     spinner.succeed(

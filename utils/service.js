@@ -23,6 +23,7 @@ const initService = async (serviceOptions) => {
       rejectUnauthorized: false,
     },
   };
+
   instance = got.extend(defaultGotOptions);
 
   const loginRes = await login(serviceOptions);
@@ -83,7 +84,7 @@ const fetchPersonInfo = () => {
 
 const logout = async () =>
   await instance.put("inter-api/auth/logout").catch((err) => {
-    console.log(err.response);
+    console.log(err,err.response);
   });
 
 const fetchAppList = async () =>
@@ -162,4 +163,5 @@ module.exports = {
   fetchVersion,
   initService,
   fetchPersonInfo,
+  options
 };

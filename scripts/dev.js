@@ -47,7 +47,6 @@ const isNoTrack = !fse.pathExistsSync(
   path.resolve(process.cwd(), "./.cache/ccws.lock")
 );
 
-
 render(app, {
   root: publicPath,
   extname: ".art",
@@ -56,7 +55,12 @@ render(app, {
 });
 
 const { compareDependencies } = require("../utils/common");
-const { initService, fetchPersonInfo } = require("../utils/service");
+const {
+  initService,
+  fetchPersonInfo,
+  logout,
+  options,
+} = require("../utils/service");
 
 if (!fse.pathExistsSync(configPath)) {
   spinner.fail("can't find ccws.config.json in you project root");
@@ -320,6 +324,7 @@ function genMiddlewares(componentInfo) {
           ) {
             let replaceContent = "<script>";
             if (!isNoTrack) {
+              if (options) await logout();
               const logMsg = await initService({ ...componentInfo, spinner });
               const personInfo = await fetchPersonInfo();
               replaceContent += `

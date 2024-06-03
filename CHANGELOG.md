@@ -29,3 +29,7 @@ fix: 修复了 resolve.modules 路径范围
 chore: 修改 dev 资源注入方式
 chore: 添加页面全局的默认样式，组件打包时不引入
 chore: 通过 link 引入的包，更改依赖查找路径
+
+# 1.4.16
+
+chore: 每次获取用户信息前，退出上一次登录

@@ -17,10 +17,27 @@
 
     socket.on("connect", () => {
       console.log("Connect ccws socket server success!");
-      socket.emit("message", wsId);
-    });
 
+      socket.emit("message", wsId);
+      setInterval(() => {
+        socket.emit("message", wsId);
+      }, 10 * 1000)
+    });
+    
   </script>
+
+  <script>
+    setInterval(function () {
+      fetch('/inter-api/auth/token/refresh', {
+        method: 'put',
+        headers: {
+          Authorization:
+            "Bearer " + localStorage.getItem('ticket')
+        }
+      }).catch(() => { })
+    }, 5 * 60 * 1000)
+  </script>
+
   <style>
     #root {
       width: 100%;

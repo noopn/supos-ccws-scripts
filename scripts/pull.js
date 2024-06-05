@@ -245,7 +245,10 @@ async function pull(options) {
             localFolderPath
           )}\n`;
           folderLockData += `  <@localFolderParentPath>${path2UnixPath(
-            localFolderPath.split(path.sep).slice(0, -1).join(path.sep)
+            localFolderPath
+              .split(path.sep)
+              .slice(0, -1)
+              .join(path.sep)
           )}\n`;
           folderLockData += `  <@localAppPath>${path2UnixPath(localAppPath)}\n`;
           folderLockData += `  <@localComponentPath>${path2UnixPath(
@@ -338,12 +341,10 @@ async function pull(options) {
 
               spinner.succeed(
                 chalk.hex("#e4e4e4")(
-                  `${
-                    file.path +
+                  `${file.path +
                     new Array(
                       70 - file.path.length < 0 ? 0 : 70 - file.path.length
-                    ).join(" ")
-                  }      ${chalk.hex("#eac154")(
+                    ).join(" ")}      ${chalk.hex("#eac154")(
                     file.size + new Array(8 - file.size.length).join(" ")
                   )}      ${chalk.hex("#00aca7")(
                     moment(+file.lastModifiedDate).format("YYYY-MM-DD HH:mm:ss")

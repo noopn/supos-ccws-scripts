@@ -138,7 +138,7 @@ io.on("connection", (socket) => {
       await instance.stop();
       serversMap.delete(devWsId);
       spinner.info(`webpack dev server on port ${port}, has already stopped. `);
-    }, 1000 * 20);
+    }, 1000 * 60);
   });
 });
 

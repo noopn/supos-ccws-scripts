@@ -139,18 +139,25 @@ async function build() {
                 });
               }
 
-              const {resolve:{extensions}}=  baseConfig(mode);
+              const {
+                resolve: { extensions },
+              } = baseConfig(mode);
               let match;
               if (
-                match = fileOrFolderPath.match( new RegExp(`/source/index(${extensions.join("|")})`))
+                (match = fileOrFolderPath.match(
+                  new RegExp(`/source/index(${extensions.join("|")})`)
+                ))
               ) {
-
                 const entryLevel = extensions.indexOf(match[1]);
-                if(componentTempData.entryLevel != undefined && componentTempData.entryLevel<= entryLevel) return;
+                if (
+                  componentTempData.entryLevel != undefined &&
+                  componentTempData.entryLevel <= entryLevel
+                )
+                  return;
 
                 Object.assign(componentTempData, {
                   componentEntryPath: fileOrFolderPath,
-                  entryLevel
+                  entryLevel,
                 });
               }
             }
@@ -179,7 +186,6 @@ async function build() {
       };
     })
     .filter((app) => app.components.length);
-
 
   if (!inquirerData.length) {
     spinner.succeed(

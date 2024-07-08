@@ -24,7 +24,7 @@ const {
 
 const { path2UnixPath } = require("../utils/common");
 
-const hasYarnCommand = spawn.sync("yarn", ["--version"]).stdout.toString();
+const hasYarnCommand = spawn.sync("yarn", ["--version"]).stdout?.toString().trim();
 
 const isNoTrack = process.argv.includes("--notrack");
 

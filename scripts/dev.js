@@ -242,7 +242,10 @@ async function start(componentInfo) {
 
     new webpack.ProvidePlugin({
       _: "lodash",
-      scriptUtil: path.resolve(__dirname, "../config/scriptUtil.js"),
+      scriptUtil: [
+        path.resolve(__dirname, "../config/scriptUtil.js"),
+        "default",
+      ],
     }),
     new webpack.DefinePlugin({
       COMPONENT_ENTRY: `"${componentInfo.componentEntryPath}"`,

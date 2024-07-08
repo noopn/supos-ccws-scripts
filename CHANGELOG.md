@@ -38,3 +38,8 @@ chore: 每次获取用户信息前，退出上一次登录
 
 chore: 修改 sw 检测时间
 chore: 静置页面时刷新token
+
+
+# 1.4.19
+
+chore: 增补了 scriptUtil 的功能

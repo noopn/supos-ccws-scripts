@@ -76,7 +76,6 @@ function request(
     };
     newOptions.body = JSON.stringify(newOptions.body);
   }
-  reviceUrl = newOptions;
   newOptions.headers["Accept-Language"] =
     localStorage.getItem("language") || "zh-cn";
   if (localStorage.getItem("tenant")) {
@@ -242,7 +241,7 @@ function requestNew(...params) {
   rest[1] = options;
   return request.apply(this, rest).then((res) => {
     const result = { ...res };
-    if (res.code !== undefined) {
+    if (result.code !== undefined) {
       result.code = `${res.code}`;
     }
     return {

@@ -43,3 +43,7 @@ chore: 静置页面时刷新token
 # 1.4.19
 
 chore: 增补了 scriptUtil 的功能
+
+# 1.4.20
+
+fixed: 修复 scriptUtil request 方法解析字段错误

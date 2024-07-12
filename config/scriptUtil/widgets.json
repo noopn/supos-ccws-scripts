@@ -1,0 +1,983 @@
+{
+  "graph": [
+    {
+      "id": "UnruleShape",
+      "displayName": {
+        "zh-cn": "不规则图形",
+        "zh-hk": "不規則圖形",
+        "de-de": "Unregelmäßige Form",
+        "en-us": "UnruleShape"
+      },
+      "version": "1.0.0",
+      "isCanvas": true,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 1
+    },
+    {
+      "id": "Circle",
+      "displayName": {
+        "zh-cn": "圆形",
+        "zh-hk": "圓形",
+        "de-de": "Kreis.",
+        "en-us": "Circle"
+      },
+      "version": "1.0.0",
+      "isCanvas": true,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 2
+    },
+    {
+      "id": "Rect",
+      "displayName": {
+        "zh-cn": "矩形",
+        "zh-hk": "矩形",
+        "de-de": "Rechteck",
+        "en-us": "Rect"
+      },
+      "version": "1.0.0",
+      "isCanvas": true,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 3
+    },
+    {
+      "id": "Oval",
+      "displayName": {
+        "zh-cn": "椭圆",
+        "zh-hk": "橢圓",
+        "de-de": "Ellipse.",
+        "en-us": "Oval"
+      },
+      "version": "1.0.0",
+      "isCanvas": true,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 4
+    },
+    {
+      "id": "RoundRect",
+      "displayName": {
+        "zh-cn": "圆角矩形",
+        "zh-hk": "圓角矩形",
+        "de-de": "Abgerundetes Rechte",
+        "en-us": "RoundRect"
+      },
+      "version": "1.0.0",
+      "isCanvas": true,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 5
+    },
+    {
+      "id": "Polygon",
+      "displayName": {
+        "zh-cn": "正多边形",
+        "zh-hk": "正多邊形",
+        "de-de": "Regelmäßiges Polygon",
+        "en-us": "Polygon"
+      },
+      "version": "1.0.0",
+      "isCanvas": true,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 6
+    },
+    {
+      "id": "CustomShape",
+      "displayName": {
+        "zh-cn": "自定义形状",
+        "zh-hk": "自定義形狀",
+        "de-de": "Benutzerdefinierte Form",
+        "en-us": "CustomShape"
+      },
+      "version": "1.0.0",
+      "isCanvas": true,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 7
+    },
+    {
+      "id": "Triangle",
+      "displayName": {
+        "zh-cn": "三角形",
+        "zh-hk": "三角形",
+        "de-de": "Dreieck.",
+        "en-us": "Triangle"
+      },
+      "version": "1.0.0",
+      "isCanvas": true,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 8
+    },
+    {
+      "id": "Star",
+      "displayName": {
+        "zh-cn": "星形",
+        "zh-hk": "星形",
+        "de-de": "Stern",
+        "en-us": "Star"
+      },
+      "version": "1.0.0",
+      "isCanvas": true,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 9
+    },
+    {
+      "id": "Arc",
+      "displayName": {
+        "zh-cn": "圆弧形",
+        "zh-hk": "圓弧形",
+        "de-de": "Bogen.",
+        "en-us": "Arc"
+      },
+      "version": "1.0.0",
+      "isCanvas": true,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 10
+    },
+    {
+      "id": "Text",
+      "displayName": {
+        "zh-cn": "文字",
+        "zh-hk": "文字",
+        "de-de": "Text",
+        "en-us": "Text"
+      },
+      "version": "1.0.0",
+      "isCanvas": true,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 11
+    },
+    {
+      "id": "Edge",
+      "displayName": {
+        "zh-cn": "连线",
+        "zh-hk": "連線",
+        "de-de": "Verbinden.",
+        "en-us": "Edge"
+      },
+      "version": "1.0.0",
+      "isCanvas": true,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 12
+    },
+    {
+      "id": "Image",
+      "displayName": {
+        "zh-cn": "图片",
+        "zh-hk": "圖片",
+        "de-de": "Bilder.",
+        "en-us": "Image"
+      },
+      "version": "1.0.0",
+      "isCanvas": true,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 13
+    },
+    {
+      "id": "Pipe",
+      "displayName": {
+        "zh-cn": "管道",
+        "zh-hk": "管道",
+        "de-de": "Rohr",
+        "en-us": "Pipe"
+      },
+      "version": "1.0.0",
+      "isCanvas": true,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 14
+    },
+    {
+      "id": "DataLink",
+      "displayName": {
+        "zh-cn": "数据连接",
+        "zh-hk": "數據連接",
+        "de-de": "Datenverbindung",
+        "en-us": "DataLink"
+      },
+      "version": "1.0.0",
+      "isCanvas": true,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 15
+    },
+    {
+      "id": "LineArrow",
+      "displayName": {
+        "zh-cn": "水平线段",
+        "zh-hk": "水平線段",
+        "de-de": "HorizontalSegment",
+        "en-us": "HorizontalLineArrow"
+      },
+      "version": "1.0.0",
+      "isCanvas": true,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 16
+    },
+    {
+      "id": "VerticalLineArrow",
+      "displayName": {
+        "zh-cn": "垂直线段",
+        "zh-hk": "垂直線段",
+        "de-de": "VertikaleSegment",
+        "en-us": "VerticalLineArrow"
+      },
+      "version": "1.0.0",
+      "isCanvas": true,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 17
+    }
+  ],
+  "form": [
+    {
+      "id": "Line",
+      "displayName": {
+        "zh-cn": "线条",
+        "zh-hk": "線條",
+        "de-de": "Linien",
+        "en-us": "Line"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 168,
+      "defaultHeight": 32,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 1
+    },
+    {
+      "id": "Label",
+      "displayName": {
+        "zh-cn": "标签",
+        "zh-hk": "標籤",
+        "de-de": "Etikett",
+        "en-us": "Label"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 168,
+      "defaultHeight": 32,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 2
+    },
+    {
+      "id": "HiddenField",
+      "displayName": {
+        "zh-cn": "隐藏域",
+        "zh-hk": "隱藏域",
+        "de-de": "Verdeckte Domäne",
+        "en-us": "HiddenField"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 56,
+      "defaultHeight": 56,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 3
+    },
+    {
+      "id": "Input",
+      "displayName": {
+        "zh-cn": "输入框",
+        "zh-hk": "輸入框",
+        "de-de": "Eingabefeld",
+        "en-us": "Input"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 348,
+      "defaultHeight": 32,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 4
+    },
+    {
+      "id": "Select",
+      "displayName": {
+        "zh-cn": "下拉框",
+        "zh-hk": "下拉框",
+        "de-de": "Dropdown-Feld",
+        "en-us": "Select"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 348,
+      "defaultHeight": 32,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 5
+    },
+    {
+      "id": "Cascader",
+      "displayName": {
+        "zh-cn": "级联选择",
+        "zh-hk": "級聯選擇",
+        "de-de": "Kaskadierte Auswahl",
+        "en-us": "Cascader"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 348,
+      "defaultHeight": 32,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 6
+    },
+    {
+      "id": "Radio",
+      "displayName": {
+        "zh-cn": "单选框",
+        "zh-hk": "單選框",
+        "de-de": "Kontrollkästchen",
+        "en-us": "Radio"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 348,
+      "defaultHeight": 32,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 7
+    },
+    {
+      "id": "Checkbox",
+      "displayName": {
+        "zh-cn": "复选框",
+        "zh-hk": "復選框",
+        "de-de": "Kontrollkästchen",
+        "en-us": "Checkbox"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 348,
+      "defaultHeight": 32,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 8
+    },
+    {
+      "id": "DatePicker",
+      "displayName": {
+        "zh-cn": "日期",
+        "zh-hk": "日期",
+        "de-de": "Datum",
+        "en-us": "DatePicker"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 348,
+      "defaultHeight": 32,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 9
+    },
+    {
+      "id": "Button",
+      "displayName": {
+        "zh-cn": "按钮",
+        "zh-hk": "按鈕",
+        "de-de": "Schaltfläche.",
+        "en-us": "Button"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 120,
+      "defaultHeight": 36,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 10
+    },
+    {
+      "id": "Tree",
+      "displayName": {
+        "zh-cn": "树状",
+        "zh-hk": "樹狀",
+        "de-de": "Baum",
+        "en-us": "Tree"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 200,
+      "defaultHeight": 290,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 11
+    },
+    {
+      "id": "SingleList",
+      "displayName": {
+        "zh-cn": "单列表",
+        "zh-hk": "單列表",
+        "de-de": "Einzelne Liste",
+        "en-us": "SingleList"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 180,
+      "defaultHeight": 333,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 12
+    },
+    {
+      "id": "Table",
+      "displayName": {
+        "zh-cn": "表格",
+        "zh-hk": "表格",
+        "de-de": "Tabelle",
+        "en-us": "Table"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 586,
+      "defaultHeight": 300,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 13
+    },
+    {
+      "id": "UploadImg",
+      "displayName": {
+        "zh-cn": "图片",
+        "zh-hk": "圖片",
+        "de-de": "Bilder.",
+        "en-us": "UploadImg"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 108,
+      "defaultHeight": 108,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 14
+    },
+    {
+      "id": "Tabs",
+      "displayName": {
+        "zh-cn": "标签页",
+        "zh-hk": "標籤頁",
+        "de-de": "Registerkarte",
+        "en-us": "Tabs"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 300,
+      "defaultHeight": 300,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 15
+    },
+    {
+      "id": "Upload",
+      "displayName": {
+        "zh-cn": "上传",
+        "zh-hk": "上傳",
+        "de-de": "Hochladen",
+        "en-us": "Upload"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 120,
+      "defaultHeight": 120,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 16
+    },
+    {
+      "id": "Breadcrumb",
+      "displayName": {
+        "zh-cn": "面包屑",
+        "zh-hk": "面包屑",
+        "de-de": "Krümel.",
+        "en-us": "Breadcrumb"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 400,
+      "defaultHeight": 100,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 17
+    },
+    {
+      "id": "Search",
+      "displayName": {
+        "zh-cn": "搜索",
+        "zh-hk": "搜索",
+        "de-de": "Suchen",
+        "en-us": "Search"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 348,
+      "defaultHeight": 32,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 18
+    },
+    {
+      "id": "DateText",
+      "displayName": {
+        "zh-cn": "日期",
+        "zh-hk": "日期",
+        "de-de": "Datum",
+        "en-us": "DateText"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 348,
+      "defaultHeight": 32,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 19
+    },
+    {
+      "id": "TimeText",
+      "displayName": {
+        "zh-cn": "时间",
+        "zh-hk": "時間",
+        "de-de": "Zeit.",
+        "en-us": "Time"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 348,
+      "defaultHeight": 32,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 20
+    }
+  ],
+  "chart": [
+    {
+      "id": "LineChart",
+      "displayName": {
+        "zh-cn": "折线图",
+        "zh-hk": "折線圖",
+        "de-de": "Liniendiagramm",
+        "en-us": "Line Chart"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 450,
+      "defaultHeight": 250,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 1
+    },
+    {
+      "id": "SplineChart",
+      "displayName": {
+        "zh-cn": "曲线图",
+        "zh-hk": "曲線圖",
+        "de-de": "Grafik",
+        "en-us": "Spline Chart"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 450,
+      "defaultHeight": 250,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 2
+    },
+    {
+      "id": "Column",
+      "displayName": {
+        "zh-cn": "柱状图",
+        "zh-hk": "柱狀圖",
+        "de-de": "Balkendiagramm",
+        "en-us": "Column"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 450,
+      "defaultHeight": 250,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 3
+    },
+    {
+      "id": "Area",
+      "displayName": {
+        "zh-cn": "面积图",
+        "zh-hk": "面積圖",
+        "de-de": "Flächendiagramme",
+        "en-us": "Area"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 450,
+      "defaultHeight": 250,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 4
+    },
+    {
+      "id": "Dashboard",
+      "displayName": {
+        "zh-cn": "仪表盘",
+        "zh-hk": "儀表盤",
+        "de-de": "Dashboard",
+        "en-us": "Dashboard"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 250,
+      "defaultHeight": 250,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 5
+    },
+    {
+      "id": "Gauge",
+      "displayName": {
+        "zh-cn": "速度仪",
+        "zh-hk": "速度儀",
+        "de-de": "Geschwindigkeitsmesser",
+        "en-us": "Gauge"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 250,
+      "defaultHeight": 250,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 6
+    },
+    {
+      "id": "Bubble",
+      "displayName": {
+        "zh-cn": "气泡图",
+        "zh-hk": "氣泡圖",
+        "de-de": "Blasendiagramm",
+        "en-us": "Bubble"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 450,
+      "defaultHeight": 250,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 7
+    },
+    {
+      "id": "Scatter",
+      "displayName": {
+        "zh-cn": "散点图",
+        "zh-hk": "散點圖",
+        "de-de": "Streudiagramm",
+        "en-us": "Scatter"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 450,
+      "defaultHeight": 250,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 8
+    },
+    {
+      "id": "Pie",
+      "displayName": {
+        "zh-cn": "饼图",
+        "zh-hk": "餅圖",
+        "de-de": "Kreisdiagramm",
+        "en-us": "Pie"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 250,
+      "defaultHeight": 250,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 9
+    },
+    {
+      "id": "Funnel",
+      "displayName": {
+        "zh-cn": "漏斗图",
+        "zh-hk": "漏鬥圖",
+        "de-de": "Trichterdiagramm",
+        "en-us": "Funnel"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 250,
+      "defaultHeight": 250,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 10
+    },
+    {
+      "id": "SpiderChart",
+      "displayName": {
+        "zh-cn": "蛛网图",
+        "zh-hk": "蛛網圖",
+        "de-de": "Spinnennetz Karte",
+        "en-us": "Spider Chart"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 300,
+      "defaultHeight": 250,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 11
+    },
+    {
+      "id": "AnnularChart",
+      "displayName": {
+        "zh-cn": "环形图",
+        "zh-hk": "環形圖",
+        "de-de": "Kreisdiagramm",
+        "en-us": "Annular Chart"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 300,
+      "defaultHeight": 250,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 12
+    },
+    {
+      "id": "SpcChart",
+      "displayName": {
+        "zh-cn": "spc图",
+        "zh-hk": "spc圖",
+        "de-de": "SPC-Diagramm",
+        "en-us": "Spc Chart"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 450,
+      "defaultHeight": 250,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 13
+    },
+    {
+      "id": "BarChart",
+      "displayName": {
+        "zh-cn": "直方图",
+        "zh-hk": "直方圖",
+        "de-de": "Histogramm",
+        "en-us": "Bar Chart"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 300,
+      "defaultHeight": 250,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 14
+    },
+    {
+      "id": "ProgressBar",
+      "displayName": {
+        "zh-cn": "进度条",
+        "zh-hk": "進度條",
+        "de-de": "Fortschrittsbalken",
+        "en-us": "ProgressBar"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 450,
+      "defaultHeight": 250,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 15
+    },
+    {
+      "id": "Xrange",
+      "displayName": {
+        "zh-cn": "甘特图",
+        "zh-hk": "甘特圖",
+        "de-de": "Gantt-Diagramm",
+        "en-us": "Xrange"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 450,
+      "defaultHeight": 250,
+      "description": "",
+      "icon": "./icon.svg",
+      "order": 16
+    }
+  ],
+  "control": [
+    {
+      "id": "RealAlarm",
+      "displayName": {
+        "zh-cn": "实时报警",
+        "zh-hk": "實時報警",
+        "de-de": "Echtzeit-Alarm",
+        "en-us": "Real-time Alarm"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 800,
+      "defaultHeight": 500,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 1
+    },
+    {
+      "id": "HistoryAlarm",
+      "displayName": {
+        "zh-cn": "历史报警",
+        "zh-hk": "歷史報警",
+        "de-de": "Historischer Alarm",
+        "en-us": "History Alarm"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 800,
+      "defaultHeight": 500,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 2
+    },
+    {
+      "id": "DriveVideo",
+      "displayName": {
+        "zh-cn": "驱动视频",
+        "zh-hk": "驅動視頻",
+        "de-de": "Treibervideo",
+        "en-us": "Drive Video"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 400,
+      "defaultHeight": 300,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 3
+    },
+    {
+      "id": "VideoWall",
+      "displayName": {
+        "zh-cn": "视频墙",
+        "zh-hk": "視頻牆",
+        "de-de": "Videowand",
+        "en-us": "Video Wall"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 400,
+      "defaultHeight": 300,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 4
+    },
+    {
+      "id": "Video",
+      "displayName": {
+        "zh-cn": "视频",
+        "zh-hk": "視頻",
+        "de-de": "Video",
+        "en-us": "Video"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 450,
+      "defaultHeight": 250,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 6
+    },
+    {
+      "id": "Timer",
+      "displayName": {
+        "zh-cn": "定时器",
+        "zh-hk": "定時器",
+        "de-de": "Timer.",
+        "en-us": "Timer"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 32,
+      "defaultHeight": 32,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 7
+    },
+    {
+      "id": "TrendChart",
+      "displayName": {
+        "zh-cn": "趋势图",
+        "zh-hk": "趨勢圖",
+        "de-de": "Trenddiagramm",
+        "en-us": "TrendChart"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 800,
+      "defaultHeight": 500,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 8
+    },
+    {
+      "id": "Report",
+      "displayName": {
+        "zh-cn": "报表",
+        "zh-hk": "報表",
+        "de-de": "Bericht",
+        "en-us": "Report"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 400,
+      "defaultHeight": 300,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 9
+    },
+    {
+      "id": "Webview",
+      "displayName": {
+        "zh-cn": "网页",
+        "zh-hk": "網頁",
+        "de-de": "Webseite",
+        "en-us": "Webpage"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 640,
+      "defaultHeight": 480,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 10
+    },
+    {
+      "id": "Carousel",
+      "displayName": {
+        "zh-cn": "轮播",
+        "zh-hk": "輪播",
+        "de-de": "Karussell",
+        "en-us": "Carousel"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 450,
+      "defaultHeight": 250,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 11
+    },
+    {
+      "id": "Calendar",
+      "displayName": {
+        "zh-cn": "日历",
+        "zh-hk": "日歷",
+        "de-de": "Kalender",
+        "en-us": "Calendar"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 520,
+      "defaultHeight": 690,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 12
+    },
+    {
+      "id": "CustomComp",
+      "displayName": {
+        "zh-cn": "可编程组件",
+        "zh-hk": "可編程組件",
+        "de-de": "Programmierbare Komponenten",
+        "en-us": "Programme"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 120,
+      "defaultHeight": 120,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 13
+    },
+    {
+      "id": "TodoCtrl",
+      "displayName": {
+        "zh-cn": "待办列表",
+        "zh-hk": "待辦列表",
+        "de-de": "Aufgabenliste",
+        "en-us": "To Do List"
+      },
+      "version": "1.0.0",
+      "defaultWidth": 800,
+      "defaultHeight": 500,
+      "icon": "./icon.svg",
+      "description": "",
+      "order": 14
+    }
+  ]
+}

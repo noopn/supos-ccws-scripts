@@ -47,3 +47,7 @@ chore: 增补了 scriptUtil 的功能
 # 1.4.20
 
 fixed: 修复 scriptUtil request 方法解析字段错误
+
+# 1.4.21
+
+fixed: 修复 scriptUtil 和主线相同

@@ -109,6 +109,7 @@ router.get("/:id", async (ctx) => {
     ctx.body = true;
 
     if (serversMap.has(componentInfo.id)) return;
+
     const instance = await start({ ...componentInfo });
     serversMap.set(componentInfo.id, instance);
   } else {
@@ -138,7 +139,7 @@ io.on("connection", (socket) => {
       await instance.stop();
       serversMap.delete(devWsId);
       spinner.info(`webpack dev server on port ${port}, has already stopped. `);
-    }, 1000 * 60);
+    }, 1000 * 60 * 5);
   });
 });
 
@@ -242,10 +243,7 @@ async function start(componentInfo) {
 
     new webpack.ProvidePlugin({
       _: "lodash",
-      scriptUtil: [
-        path.resolve(__dirname, "../config/scriptUtil.js"),
-        "default",
-      ],
+      scriptUtil: [path.resolve(__dirname, "../config/scriptUtil"), "default"],
     }),
     new webpack.DefinePlugin({
       COMPONENT_ENTRY: `"${componentInfo.componentEntryPath}"`,

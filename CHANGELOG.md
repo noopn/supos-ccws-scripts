@@ -22,7 +22,6 @@ fix: 路径问题导致 build push， isTrack 模式下无法精确跟踪文件
 
 fix: 缓存文件路径修改为项目目录
 
-
 # 1.4.12
 
 fix: 修复了 resolve.modules 路径范围
@@ -39,7 +38,6 @@ chore: 每次获取用户信息前，退出上一次登录
 chore: 修改 sw 检测时间
 chore: 静置页面时刷新token
 
-
 # 1.4.19
 
 chore: 增补了 scriptUtil 的功能
@@ -51,3 +49,7 @@ fixed: 修复 scriptUtil request 方法解析字段错误
 # 1.4.21
 
 fixed: 修复 scriptUtil 和主线相同
+
+# 1.4.22
+
+chore: 增加了 test 命令

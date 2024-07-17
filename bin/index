@@ -10,7 +10,7 @@ const nodeArgs = argv.slice(2);
 
 const command = nodeArgs[0]
 
-if(!['dev','push','build','pull'].includes(command)) {
+if(!['dev','push','build','pull','test'].includes(command)) {
   console.log();
 
   console.log(chalk.red("Illegal command"), "Your command must be one of the following");
@@ -20,6 +20,7 @@ if(!['dev','push','build','pull'].includes(command)) {
   console.log(chalk.cyan('pull '), "pull all components from your selected project")
   console.log(chalk.cyan('build'), "build selected components but not push to server")
   console.log(chalk.cyan('push '), "build and push selected components to server")
+  console.log(chalk.cyan('test '), "test component")
   console.log();
 
   process.exit(1);

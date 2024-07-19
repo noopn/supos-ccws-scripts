@@ -53,3 +53,7 @@ fixed: 修复 scriptUtil 和主线相同
 # 1.4.22
 
 chore: 增加了 test 命令
+
+# 1.4.23
+
+fixed: 修复了 mockfile 路径错误
